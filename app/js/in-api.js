@@ -1,54 +1,72 @@
-define([], function () {
-    var app;
+define(['config'], function (config) {
 
     function ApiManager (_app) {
-        app = _app;
+        this.app = _app;
         this.loadIN();
     }
 
     _.extend(ApiManager.prototype, Backbone.Events);
 
     ApiManager.prototype.loadIN = function () {
-        var self = this;
+
+        var self = this, 
+            credentials = { 
+                api_key: config.api_key, 
+                authorize: true
+            };
 
         if (typeof IN !== 'undefined') {
-            return onLinkedInLoad();
+            return authorize(credentials);
         }
 
         require(['linkedin'], function () {
             function checkIN () {
                 if (IN) {
-                    onLinkedInLoad();
+                    authorize(credentials);
                 } else {
-                    setTimeout(checkIN, 500);
+                    setTimeout(checkIN, 100);
                 }
             }
             checkIN();
         });
 
-        function onLinkedInLoad () {
-            IN.init({
-                api_key: '3hgb50tctix0',
-                authorize: true
-            });
-
+        function authorize (credentials) {
+            IN.init(credentials);
             if (typeof IN.API !== 'undefined') {
-                return onLinkedInAuth();
+                return onAuthorize();
             }
-
-            function checkAPI () {
+            function checkApi () {
                 if (IN.API) {
-                    onLinkedInAuth();
+                    onAuthorize();
                 } else {
-                    setTimeout(checkAPI, 500);
+                    setTimeout(checkApi, 100);
                 }
             }
-            checkAPI();
+            checkApi();
         }
 
-        function onLinkedInAuth () {
-            self.trigger('ready');
+        function onAuthorize () {
+            self.init();
         }
+
+    };
+
+    ApiManager.prototype.init = function () {
+        var self = this;
+
+        this.trigger('ready');
+
+        this.handleSuccess = function (response) {
+            _.each(response.models, function (model) {
+                console.log(model.attributes);
+            });
+        };
+
+        this.handleError = function (error) {
+            if (error.status === 404) {
+                console.log('Please sign in with LinkedIn');
+            }
+        };
 
     };
 
@@ -66,7 +84,7 @@ define([], function () {
                     url += ':' + options.data.fields;
                 }
                 request = IN.API.Raw(url);
-                Backbone.INRequest(request, method, model, options);
+                Backbone.clientRequest(request, method, model, options);
             break;
 
             case 'update':
@@ -77,7 +95,7 @@ define([], function () {
         }
     };
 
-    Backbone.INRequest = function(request, method, model, options) {
+    Backbone.clientRequest = function(request, method, model, options) {
         request.result(function(response) {
             options.success(response);
         }).error(function (error) {

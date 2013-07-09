@@ -1,5 +1,13 @@
-define(['in-api', 'collections/profiles'], function (ApiManager, Profiles) {
+define([
+    'in-api', 
+    'views/app', 
+    'collections/profiles'
+], 
+
+function (ApiManager, AppView, Profiles) {
     var App = function () {
+        this.views.app = new AppView(this);
+        this.views.app.render();
         this.collections.profiles = new Profiles();
         this.connectIN();
     };
@@ -17,12 +25,10 @@ define(['in-api', 'collections/profiles'], function (ApiManager, Profiles) {
                         fields: '(id,first-name,last-name,headline,location,industry,num-connections,summary,positions)'
                     },
                     success: function (response) {
-                        _.each(response.models, function (model) {
-                            console.log(model.attributes);
-                        });
+                        self.apiManager.handleSuccess(response);
                     },
-                    error: function () {
-                        console.log('error');
+                    error: function (response, error) {
+                        self.apiManager.handleError(error);
                     }
                 });
             });
