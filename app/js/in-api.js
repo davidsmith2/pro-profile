@@ -28,9 +28,7 @@ define(['config'], function (config) {
             checkIN();
 
             function onLinkedInLoad () {
-
                 IN.init({ api_key: config.api_key, authorize: true });
-
                 function checkAPI () {
                     if (IN.API) {
                         onLinkedInAuth();
@@ -38,9 +36,7 @@ define(['config'], function (config) {
                         setTimeout(checkAPI, 100);
                     }
                 }
-
                 checkAPI();
-
             }
 
             function onLinkedInAuth () {
@@ -57,12 +53,6 @@ define(['config'], function (config) {
         var self = this;
 
         this.trigger('ready');
-
-        this.handleSuccess = function (response) {
-            _.each(response.models, function (model) {
-                console.log(model.attributes);
-            });
-        };
 
         this.handleError = function (error) {
             if (error.status === 404) {
@@ -99,8 +89,10 @@ define(['config'], function (config) {
     };
 
     Backbone.clientRequest = function(request, method, model, options) {
+        var result;
         request.result(function(response) {
-            options.success(response);
+            result = response;
+            options.success(result, true, response);
         }).error(function (error) {
             options.error(error);
         });

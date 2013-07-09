@@ -2,10 +2,11 @@ define([
     'in-api', 
     'views/app', 
     'views/auth', 
+    'views/profiles/menu', 
     'collections/profiles'
 ], 
 
-function (ApiManager, AppView, AuthView, Profiles) {
+function (ApiManager, AppView, AuthView, MenuView, Profiles) {
     var App = function () {
         this.views.app = new AppView(this);
         this.views.app.render();
@@ -13,11 +14,13 @@ function (ApiManager, AppView, AuthView, Profiles) {
         this.views.auth.render();
         this.views.auth.$el.show();
         this.collections.profiles = new Profiles();
+        this.views.menu = new MenuView({ collection: this.collections.profiles });
         this.connectIN();
     };
 
     App.prototype = {
         collections: {},
+        models: {},
         views: {},
         connectIN: function () {
             var self = this;
@@ -26,10 +29,11 @@ function (ApiManager, AppView, AuthView, Profiles) {
                 self.collections.profiles.fetch({
                     data: {
                         id: '~',
-                        fields: '(id,first-name,last-name,headline,location,industry,num-connections,summary,positions)'
+                        fields: '(id,first-name,last-name,headline,location,industry,num-connections,summary)'
                     },
                     success: function (response) {
-                        self.apiManager.handleSuccess(response);
+                        self.models.activeProfile = self.collections.profiles.first();
+                        self.views.menu.render();
                     },
                     error: function (response, error) {
                         self.apiManager.handleError(error);
