@@ -1,7 +1,7 @@
 define(['lib/text!templates/app.html'], function (template) {
 
     var AppView = Backbone.View.extend({
-        el: '#main',
+        el: 'body',
         template: _.template(template),
 
         events: {

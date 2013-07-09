@@ -9,45 +9,47 @@ define(['config'], function (config) {
 
     ApiManager.prototype.loadIN = function () {
 
-        var self = this, 
-            credentials = { 
-                api_key: config.api_key, 
-                authorize: true
-            };
+        var self = this;
 
         if (typeof IN !== 'undefined') {
-            return authorize(credentials);
+            return onLinkedInLoad();
         }
 
         require(['linkedin'], function () {
+
             function checkIN () {
                 if (IN) {
-                    authorize(credentials);
+                    onLinkedInLoad()
                 } else {
                     setTimeout(checkIN, 100);
                 }
             }
+
             checkIN();
-        });
 
-        function authorize (credentials) {
-            IN.init(credentials);
-            if (typeof IN.API !== 'undefined') {
-                return onAuthorize();
-            }
-            function checkApi () {
-                if (IN.API) {
-                    onAuthorize();
-                } else {
-                    setTimeout(checkApi, 100);
+            function onLinkedInLoad () {
+
+                IN.init({ api_key: config.api_key, authorize: true });
+
+                function checkAPI () {
+                    if (IN.API) {
+                        onLinkedInAuth();
+                    } else {
+                        setTimeout(checkAPI, 100);
+                    }
                 }
-            }
-            checkApi();
-        }
 
-        function onAuthorize () {
-            self.init();
-        }
+                checkAPI();
+
+            }
+
+            function onLinkedInAuth () {
+                self.app.views.auth.$el.hide();
+                $('#signed-in-container').show();
+                self.init();
+            }
+
+        });
 
     };
 
@@ -64,7 +66,8 @@ define(['config'], function (config) {
 
         this.handleError = function (error) {
             if (error.status === 404) {
-                console.log('Please sign in with LinkedIn');
+                $('#signed-in-container').hide();
+                self.app.views.auth.$el.show();
             }
         };
 

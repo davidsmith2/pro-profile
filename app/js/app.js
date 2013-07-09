@@ -1,13 +1,17 @@
 define([
     'in-api', 
     'views/app', 
+    'views/auth', 
     'collections/profiles'
 ], 
 
-function (ApiManager, AppView, Profiles) {
+function (ApiManager, AppView, AuthView, Profiles) {
     var App = function () {
         this.views.app = new AppView(this);
         this.views.app.render();
+        this.views.auth = new AuthView(this);
+        this.views.auth.render();
+        this.views.auth.$el.show();
         this.collections.profiles = new Profiles();
         this.connectIN();
     };
