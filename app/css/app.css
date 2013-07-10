@@ -2,3 +2,12 @@
 #signed-in-container {
     display:none;
 }
+.no-bullet {
+    list-style:none;
+}
+.no-left-margin {
+    margin-left:0;
+}
+.no-left-padding {
+    padding-left:0;
+}

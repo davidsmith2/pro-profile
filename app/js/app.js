@@ -1,12 +1,13 @@
 define([
-    'in-api', 
     'views/app', 
     'views/auth', 
-    'views/profiles/menu', 
-    'collections/profiles'
+    'views/profiles/list', 
+    'collections/profiles',
+    'in-api',
+    'config',
 ], 
 
-function (ApiManager, AppView, AuthView, MenuView, Profiles) {
+function (AppView, AuthView, ListView, Profiles, ApiManager, config) {
     var App = function () {
         this.views.app = new AppView(this);
         this.views.app.render();
@@ -14,7 +15,7 @@ function (ApiManager, AppView, AuthView, MenuView, Profiles) {
         this.views.auth.render();
         this.views.auth.$el.show();
         this.collections.profiles = new Profiles();
-        this.views.menu = new MenuView({ collection: this.collections.profiles });
+        this.views.list = new ListView(this, this.collections.profiles);
         this.connectIN();
     };
 
@@ -28,12 +29,11 @@ function (ApiManager, AppView, AuthView, MenuView, Profiles) {
             this.apiManager.on('ready', function () {
                 self.collections.profiles.fetch({
                     data: {
-                        id: '~',
-                        fields: '(id,first-name,last-name,headline,location,industry,num-connections,summary)'
+                        id: config.id,
+                        fields: '(id,first-name,last-name,headline,location)'
                     },
                     success: function (response) {
-                        self.models.activeProfile = self.collections.profiles.first();
-                        self.views.menu.render();
+                        self.views.list.render();
                     },
                     error: function (response, error) {
                         self.apiManager.handleError(error);
