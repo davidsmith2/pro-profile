@@ -1,8 +1,15 @@
-define(['views/profiles/master', 'views/profiles/detail', 'lib/text!templates/profiles/list.html', 'config'], function (MasterView, DetailView, template, config) {
+define([
+    'views/profiles/master', 
+    'views/profiles/detail', 
+    'lib/text!templates/profiles/list.html', 
+    'lib/mustache',
+    'config',
+], 
+
+function (MasterView, DetailView, template, mustache, config) {
 
     var ListView = MasterView.extend({
         el: '#list',
-        template: _.template(template),
 
         events: {
             'click a': 'open'
@@ -14,24 +21,28 @@ define(['views/profiles/master', 'views/profiles/detail', 'lib/text!templates/pr
         },
 
         _render: function (model) {
-            this.$el.append(this.template(model.attributes));
+            this.$el.append(mustache.render($(template).html(), model.attributes));
+            $('.view').hide();
+            $('#list').show();
             return this;
         },
 
         open: function () {
-            this.views.detail = new DetailView();
+            var self = this;
+            this.views.detail = new DetailView(this.views, this.collection);
             this.collection.fetch({
                 data: {
                     id: config.id,
-                    fields: '(id,first-name,last-name,headline,location,industry,summary)'
+                    fields: '(id,first-name,last-name,headline,location,summary,positions)'
                 },
                 success: function (response) {
-                    console.log(response);
+                    self.views.detail.render();
                 },
                 error: function (response, error) {
                     console.log(error);
                 }
             });
+            return false;
         }
 
     });

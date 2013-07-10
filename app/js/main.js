@@ -2,7 +2,8 @@ requirejs.config({
 	baseUrl: 'js',
 	paths: {
         'text': 'lib/text',
-        'linkedin': 'http://platform.linkedin.com/in.js?async=true'
+        'linkedin': 'http://platform.linkedin.com/in.js?async=true',
+        'mustache': 'lib/mustache'
 	},
 	shim: {
         'lib/underscore-min': {
@@ -15,7 +16,8 @@ requirejs.config({
         'app': {
             deps: [
                 'lib/underscore-min', 
-                'lib/backbone-min'
+                'lib/backbone-min',
+                'lib/mustache'
             ]
         }
 	}

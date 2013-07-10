@@ -1,5 +1,7 @@
 #sign-in-container,
-#signed-in-container {
+#signed-in-container,
+#list,
+#detail {
     display:none;
 }
 .no-bullet {
