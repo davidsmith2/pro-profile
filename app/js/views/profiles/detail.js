@@ -20,6 +20,9 @@ function (MasterView, template, mustache) {
         },
 
         _render: function (model) {
+
+            console.log(model);
+            
             this.$el.append(mustache.render($(template).html(), model.attributes));
             $('.view').hide();
             $('#detail').show();

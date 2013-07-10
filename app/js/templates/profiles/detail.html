@@ -6,4 +6,17 @@
     </dl>
     <h2>Summary</h2>
     <p>{{summary}}</p>
+    <h2>Experience</h2>
+    <ul class="no-bullet no-left-margin no-left-padding">
+        {{#positions.values}}
+        <li>
+            <dl>
+                <dt>{{title}}</dt>
+                    <dd class="no-left-margin">{{company.name}}</dd>
+                    <dd class="no-left-margin">{{startDate.month}}/{{startDate.year}}&#8211;{{endDate.month}}/{{endDate.year}}</dd>
+                    <dd class="no-left-margin"><p>{{summary}}</p></dd>
+            </dl>
+        </li>
+        {{/positions.values}}
+    </ul>
 </script>
