@@ -4,14 +4,14 @@ define([
 
 function (config) {
 
-    function ApiManager (_app) {
-        this.app = _app;
-        this.loadSystem();
+    function ApiManager (options) {
+        this.app = options.app;
+        this.loadApi();
     }
 
     _.extend(ApiManager.prototype, Backbone.Events);
 
-    ApiManager.prototype.loadSystem = function () {
+    ApiManager.prototype.loadApi = function () {
 
         var self = this;
 

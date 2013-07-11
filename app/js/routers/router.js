@@ -7,36 +7,18 @@ function (ProfileView) {
     var Router = Backbone.Router.extend({
 
         routes: {
-            'sign-in': 'signIn',
-            'sign-out': 'signOut'
+            'login': 'login',
+            'logout': 'logout'
         },
 
-        currentView: null,
-
-        initialize: function (options) {
-            this.app = options.app;
-            this.el = options.el;
-            this.profileView = new ProfileView({ app: this.app });
-            console.log(this);
+        initialize: function () {
         },
 
-        signIn: function () {
-            console.log('signing in');
-            this.switchView(this.profileView);
+        login: function () {
         },
 
-        signOut: function () {
-            console.log('signing out');
+        logout: function () {
         },
-
-        switchView: function (view) {
-            if (this.currentView) {
-                this.currentView.remove();
-            }
-            this.el.html(view.el);
-            view.render();
-            this.currentView = view;
-        }
 
     });
 

@@ -54,6 +54,7 @@ function (config) {
             console.log(error.status);
             switch (error.status) {
                 case 403:
+                    this.trigger('403');
                 break;
 
                 case 404:

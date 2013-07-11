@@ -1,11 +1,15 @@
-define(['lib/text!templates/app.html'], function (template) {
+define([
+    'lib/text!templates/app.html'
+], 
+
+function (template) {
 
     var AppView = Backbone.View.extend({
         el: 'body',
         template: _.template(template),
 
-        initialize: function (_app) {
-            this.app = _app;
+        initialize: function (options) {
+            this.app = options.app;
         },
 
         render: function () {
