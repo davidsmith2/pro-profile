@@ -50,9 +50,14 @@ function (config) {
             }
         }
 
+        function doMyThing (result) {
+            console.log(result);
+        }
+
     };
 
     Backbone.sync = function (method, model, options) {
+
         var url, request;
         options || (options = {});
 
@@ -61,7 +66,7 @@ function (config) {
             break;
 
             case 'read':
-                url = model.url + '/' + options.data.id;
+                url = model.url;
                 if (options.data.fields) {
                     url += ':' + options.data.fields;
                 }
@@ -75,13 +80,13 @@ function (config) {
             case 'delete':
             break;
         }
+
     };
 
     Backbone.apiRequest = function(request, method, model, options) {
         var result;
         request.result(function(response) {
-            result = response;
-            options.success(result, true, response);
+            options.success(response);
         }).error(function (error) {
             options.error(error);
         });

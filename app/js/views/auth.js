@@ -9,6 +9,11 @@ function (template) {
         el: '#auth',
         template: _.template(template),
 
+        events: {
+            'click #login-button': 'login',
+            'click #logout-button': 'logout'
+        },
+
         initialize: function (options) {
             this.app = options.app;
         },
@@ -27,13 +32,7 @@ function (template) {
             }
         },
 
-        events: {
-            'click #login-button': 'login',
-            'click #logout-button': 'logout'
-        },
-
         login: function () {
-            var self = this;
             IN.User.authorize(function () {
                 $('#login-button').hide();
                 $('#logout-button').show();
@@ -41,7 +40,6 @@ function (template) {
         },
 
         logout: function () {
-            var self = this;
             IN.User.logout(function () {
                 $('#logout-button').hide();
                 $('#login-button').show();
