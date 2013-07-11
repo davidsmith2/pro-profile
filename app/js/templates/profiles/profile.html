@@ -1,4 +1,4 @@
-<script id="detail-template" type="text/template">
+<script id="profile-template" type="text/template">
     <dl>
         <dt>{{firstName}} {{lastName}}</dt>
             <dd class="no-left-margin">{{headline}}</dd>
@@ -13,7 +13,12 @@
             <dl>
                 <dt>{{title}}</dt>
                     <dd class="no-left-margin">{{company.name}}</dd>
-                    <dd class="no-left-margin">{{startDate.month}}/{{startDate.year}}&#8211;{{endDate.month}}/{{endDate.year}}</dd>
+                    <dd class="no-left-margin">
+                        {{startDate.month}}/{{startDate.year}}&#8211;
+                        {{#endDate}}
+                            {{endDate.month}}/{{endDate.year}}
+                        {{/endDate}}
+                    </dd>
                     <dd class="no-left-margin"><p>{{summary}}</p></dd>
             </dl>
         </li>

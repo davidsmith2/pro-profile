@@ -4,22 +4,13 @@ define(['lib/text!templates/app.html'], function (template) {
         el: 'body',
         template: _.template(template),
 
-        events: {
-            'click #sign-in-button': 'auth'
-        },
-
-        initialize: function (app) {
-            this.app = app;
+        initialize: function (_app) {
+            this.app = _app;
         },
 
         render: function () {
             this.$el.html(this.template());
             return this;
-        },
-
-        auth: function () {
-            this.app.apiManager.checkAuth();
-            return false;
         }
 
     });

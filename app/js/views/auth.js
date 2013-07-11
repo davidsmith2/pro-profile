@@ -1,13 +1,20 @@
-define(['lib/text!templates/auth.html'], function (template) {
+define([
+    'config',
+    'lib/text!templates/auth.html',
+    'models/profile',
+    'views/profiles/profile'
+], 
+
+function (config, template, Profile, ProfileView) {
 
     var AuthView = Backbone.View.extend({
 
-        el: '#sign-in-container',
+        el: '#auth-area',
         template: _.template(template),
 
         events: {
-            'click #sign-in-button': 'doSomething'
-
+            'click #sign-in-button': 'signIn',
+            'click #sign-out-button': 'signOut'
         },
 
         initialize: function (_app) {
@@ -16,11 +23,31 @@ define(['lib/text!templates/auth.html'], function (template) {
 
         render: function () {
             this.$el.html(this.template());
+            if (IN.User.isAuthorized()) {
+                $('#sign-in-button').hide();
+            } else {
+                $('#sign-out-button').hide();
+            }
             return this;
         },
 
-        doSomething: function () {
-            
+        signIn: function () {
+            var self = this;
+            IN.User.authorize(function () {
+                $('#sign-in-button').hide();
+                $('#sign-out-button').show();
+                self.app.router.navigate('/');
+                self.app.models.profile.getData();
+            });
+        },
+
+        signOut: function () {
+            var self = this;
+            IN.User.logout(function () {
+                $('#sign-out-button').hide();
+                $('#sign-in-button').show();
+                self.app.router.navigate('/');
+            });
         }
 
     });

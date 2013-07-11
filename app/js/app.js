@@ -1,47 +1,50 @@
 define([
+    'config',
+    'api-manager',
+    'models/profile',
+    'routers/router',
     'views/app', 
     'views/auth', 
-    'views/profiles/list', 
-    'collections/profiles',
-    'in-api',
-    'config',
+    'views/profiles/profile'
 ], 
 
-function (AppView, AuthView, ListView, Profiles, ApiManager, config) {
+function (config, ApiManager, Profile, Router, AppView, AuthView, ProfileView) {
+
+    Backbone.View = Backbone.View.extend({
+        remove: function () {
+            $(this.el).empty().detach();
+            return this;
+        }
+    });
+
     var App = function () {
+        var self = this;
+        this.router = new Router({ app: this, el: $('#content-area') });
+        Backbone.history.start();
         this.views.app = new AppView(this);
         this.views.app.render();
-        this.views.auth = new AuthView(this);
-        this.views.auth.render();
-        this.views.auth.$el.show();
-        this.collections.profiles = new Profiles();
-        this.views.list = new ListView(this, this.collections.profiles);
-        this.connectIN();
+        this.views.profile = new ProfileView({ app: this });
+        this.models.profile = new Profile();
+        this.connectApi();
     };
 
     App.prototype = {
-        collections: {},
         models: {},
         views: {},
-        connectIN: function () {
+        connectApi: function () {
             var self = this;
             this.apiManager = new ApiManager(this);
             this.apiManager.on('ready', function () {
-                self.collections.profiles.fetch({
-                    data: {
-                        id: config.id,
-                        fields: '(id,first-name,last-name,headline,location)'
-                    },
-                    success: function (response) {
-                        self.views.list.render();
-                    },
-                    error: function (response, error) {
-                        self.apiManager.handleError(error);
-                    }
+                self.views.auth = new AuthView(self);
+                self.views.auth.render();
+                self.models.profile.getData();
+                self.models.profile.on('ready', function () {
+                    self.views.profile.render();
                 });
             });
         }
     };
 
     return App;
+
 });
