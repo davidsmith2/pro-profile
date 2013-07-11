@@ -39,11 +39,10 @@ function (config) {
                     id: config.id,
                     fields: '(id,first-name,last-name,headline,location,summary,positions)'
                 },
-                success: function (response) {
-                    self.handleSuccess();
+                success: function (model, response, options) {
                 },
                 error: function (response, error) {
-                    self.handleError(error);
+                    self.trigger('error');
                 }
             });
         },

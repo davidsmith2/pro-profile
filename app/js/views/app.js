@@ -5,7 +5,7 @@ define([
 function (template) {
 
     var AppView = Backbone.View.extend({
-        el: 'body',
+        el: '#app',
         template: _.template(template),
 
         initialize: function (options) {

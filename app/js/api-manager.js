@@ -88,4 +88,5 @@ function (config) {
     };
 
     return ApiManager;
+
 });

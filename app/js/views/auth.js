@@ -1,21 +1,13 @@
 define([
-    'config',
     'lib/text!templates/auth.html',
-    'models/profile',
-    'views/profiles/profile',
 ], 
 
-function (config, template, Profile, ProfileView) {
+function (template) {
 
     var AuthView = Backbone.View.extend({
 
-        el: '#auth-area',
+        el: '#auth',
         template: _.template(template),
-
-        events: {
-            'click #login-button': 'login',
-            'click #logout-button': 'logout'
-        },
 
         initialize: function (options) {
             this.app = options.app;
@@ -35,7 +27,13 @@ function (config, template, Profile, ProfileView) {
             }
         },
 
+        events: {
+            'click #login-button': 'login',
+            'click #logout-button': 'logout'
+        },
+
         login: function () {
+            var self = this;
             IN.User.authorize(function () {
                 $('#login-button').hide();
                 $('#logout-button').show();
@@ -43,6 +41,7 @@ function (config, template, Profile, ProfileView) {
         },
 
         logout: function () {
+            var self = this;
             IN.User.logout(function () {
                 $('#logout-button').hide();
                 $('#login-button').show();
