@@ -9,10 +9,11 @@ function (ConnectionView) {
         el: '#connections-list',
 
         initialize: function () {
+            this.collection.on('sync', this.render, this);
             this.collection.on('add', this.renderConnection, this);
         },
 
-        render: function () {
+        render: function (model, response, options) {
             var $el = this.el,
                 self = this;
             this.collection.each(function (connection) {

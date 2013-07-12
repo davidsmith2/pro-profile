@@ -13,6 +13,10 @@ function (ProfileView) {
             '!/profile':    'profile'
         },
 
+        initialize: function () {
+            Backbone.history.start();
+        },
+
         home: function () {},
 
         login: function () {

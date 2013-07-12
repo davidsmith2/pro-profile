@@ -8,8 +8,8 @@ function (template) {
         el: '#app',
         template: _.template(template),
 
-        initialize: function (options) {
-            this.app = options.app;
+        initialize: function () {
+            this.render();
         },
 
         render: function () {

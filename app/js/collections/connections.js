@@ -15,6 +15,12 @@ function (Profile) {
     var Connections = Backbone.Collection.extend({
         model: Profile,
         url: 'people/~/connections',
+
+        initialize: function (options) {
+            this.apiManager = options.apiManager;
+            this.apiManager.on('ready', this.getData, this);
+        },
+
         getData: function () {
             var self = this;
             this.fetch({
@@ -23,7 +29,8 @@ function (Profile) {
                 },
                 silent: true
             });
-        }    });
+        }
+    });
 
     return Connections;
 

@@ -4,8 +4,7 @@ define([
 
 function (config) {
 
-    function ApiManager (options) {
-        this.app = options.app;
+    function ApiManager () {
         this.loadApi();
     }
 

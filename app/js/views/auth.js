@@ -15,7 +15,8 @@ function (template) {
         },
 
         initialize: function (options) {
-            this.app = options.app;
+            this.apiManager = options.apiManager;
+            this.apiManager.on('ready', this.render, this);
         },
 
         render: function () {
