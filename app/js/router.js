@@ -1,8 +1,7 @@
 define([
-    'views/profiles/profile'
 ], 
 
-function (ProfileView) {
+function () {
 
     var Router = Backbone.Router.extend({
 
@@ -20,11 +19,13 @@ function (ProfileView) {
         home: function () {},
 
         login: function () {
-            this.navigate('!/profile', { trigger: true });
+            this.navigate('!/profile');
+            this.trigger('login');
         },
 
         logout: function () {
             this.navigate('!/home');
+            this.trigger('logout');
         },
 
         profile: function () {}

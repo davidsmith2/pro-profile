@@ -16,32 +16,29 @@ function (template) {
 
         initialize: function (options) {
             this.apiManager = options.apiManager;
-            this.apiManager.on('ready', this.render, this);
         },
 
-        render: function () {
+        render: function (authorized) {
             this.$el.html(this.template());
-            this.auth();
-            return this;
-        },
-
-        auth: function () {
-            if (IN.User.isAuthorized()) {
+            if (authorized) {
                 $('#login-button').hide();
             } else {
                 $('#logout-button').hide();
             }
+            return this;
         },
 
         login: function () {
-            IN.User.authorize(function () {
+            var self = this;
+            this.apiManager.authorize(function () {
                 $('#login-button').hide();
                 $('#logout-button').show();
             });
         },
 
         logout: function () {
-            IN.User.logout(function () {
+            var self = this;
+            this.apiManager.logout(function () {
                 $('#logout-button').hide();
                 $('#login-button').show();
             });

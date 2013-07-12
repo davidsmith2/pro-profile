@@ -4,6 +4,7 @@ define([
 
 function (Profile) {
 
+    // overriding Backbone's native parse method for sake of LinkedIn API
     Backbone.Collection.prototype.parse = function (data) {
         if (_.isObject(data.values)) {
             return data.values;
@@ -13,13 +14,9 @@ function (Profile) {
     };
 
     var Connections = Backbone.Collection.extend({
+
         model: Profile,
         url: 'people/~/connections',
-
-        initialize: function (options) {
-            this.apiManager = options.apiManager;
-            this.apiManager.on('ready', this.getData, this);
-        },
 
         getData: function () {
             var self = this;

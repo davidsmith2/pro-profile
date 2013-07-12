@@ -5,14 +5,35 @@ define([
 function (config) {
 
     function ApiManager () {
-        this.loadApi();
+
+        var self = this;
+
+        loadApi(this);
+
+        this.isAuthorized = function () {
+            self.trigger('isAuthorized');
+            return IN.User.isAuthorized();
+        };
+
+        this.authorize = function (callback) {
+            return IN.User.authorize(function () {
+                self.trigger('authorize');
+                if (callback) callback();
+            });
+        };
+
+        this.logout = function (callback) {
+            return IN.User.logout(function () {
+                self.trigger('logout');
+                if (callback) callback();
+            });
+        };
+
     }
 
     _.extend(ApiManager.prototype, Backbone.Events);
 
-    ApiManager.prototype.loadApi = function () {
-
-        var self = this;
+    function loadApi (self) {
 
         // - If the global IN object has already loaded, proceed to initialize it
         // - Asycnhronously load the global IN object
@@ -47,10 +68,6 @@ function (config) {
             } else {
                 setTimeout(checkAPI, 100);
             }
-        }
-
-        function doMyThing (result) {
-            console.log(result);
         }
 
     };
