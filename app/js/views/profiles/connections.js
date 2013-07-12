@@ -12,7 +12,7 @@ function (ConnectionView) {
             this.collection.on('add', this.renderConnection, this);
         },
 
-        render: function (response) {
+        render: function () {
             var $el = this.el,
                 self = this;
             this.collection.each(function (connection) {

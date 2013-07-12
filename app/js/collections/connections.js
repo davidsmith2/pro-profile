@@ -4,6 +4,14 @@ define([
 
 function (Profile) {
 
+    Backbone.Collection.prototype.parse = function (data) {
+        if (_.isObject(data.values)) {
+            return data.values;
+        } else {
+            return data;
+        }
+    };
+
     var Connections = Backbone.Collection.extend({
         model: Profile,
         url: 'people/~/connections',
@@ -15,11 +23,7 @@ function (Profile) {
                 },
                 silent: true
             });
-        },
-        parse: function (response) {
-            return response.values;
-        }
-    });
+        }    });
 
     return Connections;
 
