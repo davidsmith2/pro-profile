@@ -18,7 +18,7 @@ function (Profile) {
         model: Profile,
         url: 'people/~/connections',
 
-        getData: function () {
+        update: function () {
             var self = this;
             this.fetch({
                 data: {

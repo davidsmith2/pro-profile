@@ -8,6 +8,8 @@ function (template) {
 
         el: '#auth',
         template: _.template(template),
+        loginButton: '#login-button',
+        logoutButton: '#logout-button',
 
         events: {
             'click #login-button': 'login',
@@ -18,31 +20,28 @@ function (template) {
             this.apiManager = options.apiManager;
         },
 
-        render: function (authorized) {
+        render: function (callback) {
+            var self = this;
             this.$el.html(this.template());
-            if (authorized) {
-                $('#login-button').hide();
-            } else {
-                $('#logout-button').hide();
-            }
+            if (callback) callback();
             return this;
         },
 
         login: function () {
             var self = this;
             this.apiManager.authorize(function () {
-                $('#login-button').hide();
-                $('#logout-button').show();
+                self.$loginButton.hide();
+                self.$logoutButton.show();
             });
         },
 
         logout: function () {
             var self = this;
             this.apiManager.logout(function () {
-                $('#logout-button').hide();
-                $('#login-button').show();
+                self.$logoutButton.hide();
+                self.$loginButton.show();
             });
-        }
+        },
 
     });
 

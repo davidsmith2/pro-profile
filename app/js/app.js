@@ -14,13 +14,12 @@ function (ApiManager, Connections, Router, AppView, AuthView, HomeView, Connecti
 
         var self = this;
 
-        // instantiate all needed objects
-        this.views.app = new AppView();
-        this.views.home = new HomeView();
         this.apiManager = new ApiManager();
+        this.views.app = new AppView();
         this.views.auth = new AuthView({ apiManager: this.apiManager });
-        this.collections.connections = new Connections();
-        this.views.connections = new ConnectionsView({ collection: this.collections.connections });
+        this.views.home = new HomeView();
+        self.collections.connections = new Connections();
+        this.views.connections = new ConnectionsView({ collection: self.collections.connections });
         this.router = new Router();
 
         this.apiManager.on('ready', onApiReady, this);
@@ -28,20 +27,22 @@ function (ApiManager, Connections, Router, AppView, AuthView, HomeView, Connecti
         this.apiManager.on('logout', onApiLogout, this);
 
         function onApiReady () {
-            var authorized = self.apiManager.isAuthorized();
-            self.views.auth.render(authorized);
-            self.collections.connections.getData(function () {
-                if (authorized) {
-                    self.views.connections.render();
+            self.views.auth.render(function () {
+                self.views.auth.$loginButton = $(self.views.auth.loginButton);
+                self.views.auth.$logoutButton = $(self.views.auth.logoutButton);
+                if (self.apiManager.isAuthorized()) {
+                    self.collections.connections.update();
+                    self.views.auth.$loginButton.hide();
                 } else {
                     self.views.home.render();
+                    self.views.auth.$logoutButton.hide();
                 }
             });
         }
 
         function onApiAuthorize () {
+            self.collections.connections.update();
             self.views.home.$el.empty();
-            self.views.connections.render();
         }
 
         function onApiLogout () {
