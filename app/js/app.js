@@ -20,7 +20,7 @@ function (ApiManager, Connections, Router, AppView, AuthView, HomeView, Connecti
         this.views.connections = new ConnectionsView({ collection: this.collections.connections });
         this.router = new Router();
 
-        this.apiManager.on('ready', this.init, this);
+        this.apiManager.on('init', this.init, this);
         this.apiManager.on('authorize', this.authorize, this);
         this.apiManager.on('logout', this.logout, this);
 

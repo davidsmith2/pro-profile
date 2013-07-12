@@ -64,7 +64,7 @@ function (config) {
 
         function checkAPI () {
             if (IN.API) {
-                self.trigger('ready');
+                self.trigger('init');
             } else {
                 setTimeout(checkAPI, 100);
             }
