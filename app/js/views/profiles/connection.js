@@ -14,9 +14,7 @@ function (template) {
             'click .connection': 'viewProfile'
         },
 
-        initialize: function () {
-            //this.model.on('reset', this.render, this);
-        },
+        initialize: function () {},
 
         render: function () {
             var $el = $(this.el);

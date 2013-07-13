@@ -4,7 +4,9 @@ define([
 function () {
 
     var Profile = Backbone.Model.extend({
+
         url: 'people/id=',
+
         defaults: {
             id: '',
             firstName: '',
@@ -31,7 +33,12 @@ function () {
                     }
                 ]
             }
+        },
+
+        isPrivate: function () {
+            return (this.attributes.id === 'private');
         }
+
     });
 
     return Profile;

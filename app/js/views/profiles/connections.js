@@ -14,7 +14,9 @@ function (ConnectionView) {
         render: function (collection, response, options) {
             var self = this;
             this.collection.each(function (connection) {
-                self.renderConnection(connection);
+                if (!connection.isPrivate()) {
+                    self.renderConnection(connection);
+                }
             });
             return this;
         },
