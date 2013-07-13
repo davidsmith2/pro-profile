@@ -6,7 +6,7 @@ function (ProfileView) {
 
     var PersonalProfileView = ProfileView.extend({
 
-        initialize: function () {}
+        initialize: function (options) {}
 
     });
 

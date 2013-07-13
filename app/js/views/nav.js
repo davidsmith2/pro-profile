@@ -1,9 +1,8 @@
 define([
-    'lib/text!templates/nav.html',
-    'models/personal-profile'
+    'lib/text!templates/nav.html'
 ], 
 
-function (template, PersonalProfile) {
+function (template) {
 
     var NavView = Backbone.View.extend({
 
@@ -24,7 +23,7 @@ function (template, PersonalProfile) {
 
         viewProfile: function (event) {
             event.preventDefault();
-            this.model = new PersonalProfile();
+            this.model = proProfile.models.personalProfile;
             this.model.fetch({
                 data: {
                     model: this.model,
