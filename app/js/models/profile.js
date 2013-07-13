@@ -6,28 +6,28 @@ function () {
     var Profile = Backbone.Model.extend({
         url: 'people/~',
         defaults: {
-            id: 'Q4eR386d2y',
-            firstName: 'Paul',
-            lastName: 'Jones',
-            headline: 'Salesperson',
+            id: '',
+            firstName: '',
+            lastName: '',
+            headline: '',
             location: {
-                country: 'us',
-                name: 'Washington D.C. Metro Area'
+                country: '',
+                name: ''
             },
-            summary: 'Enthusiastic, driven salesperson with eight years of experience. Award-winning customer service and interpersonal skills.',
+            summary: '',
             positions: {
                 values: [
                     {
-                        title: 'Key Holder',
+                        title: '',
                         company: {
-                            name: 'Montblanc'
+                            name: ''
                         },
                         startDate: {
-                            month: 04,
-                            year: 2009
+                            month: 0,
+                            year: 0
                         },
                         endDate: null,
-                        summary: 'Opened new specialty boutique. Place orders to restock merchandise and handled receiving of products. Manage payroll, scheduling, reports, email, inventory, and maintain clientele book and records. Integrated new register functions. Extensive work with visual standards and merchandising high-ticket items.'
+                        summary: ''
                     }
                 ]
             }

@@ -34,9 +34,13 @@ function (template) {
             this.model.fetch({
                 data: {
                     model: this.model,
-                    url: this.model.get('url', url)
+                    url: this.model.get('url', url),
+                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)'
                 },
                 success: function (model, response, options) {
+
+                    console.log(model);
+
                     proProfile.models.profile = model;
                     proProfile.router.navigate('!/' + url, { trigger: true });
                 },

@@ -10,7 +10,6 @@ function (config, mustache, template) {
 
         id: '#profile',
         tagName: 'div',
-        template: _.template(template),
 
         initialize: function (options) {
             this.model = options.model;
@@ -18,7 +17,7 @@ function (config, mustache, template) {
         },
 
         render: function () {
-            this.$el.html(this.template(this.model.attributes));
+            this.$el.html(mustache.render($(template).html(), this.model.attributes));
             return this;
         },
 
