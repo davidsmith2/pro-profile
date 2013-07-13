@@ -1,8 +1,8 @@
 define([
-    'models/profile'
+    'models/profiles/connection'
 ], 
 
-function (Profile) {
+function (ConnectionProfile) {
 
     // overriding Backbone's native parse method for sake of LinkedIn API
     Backbone.Collection.prototype.parse = function (data) {
@@ -14,7 +14,7 @@ function (Profile) {
     };
 
     var Connections = Backbone.Collection.extend({
-        model: Profile,
+        model: ConnectionProfile,
         url: 'people/~/connections',
     });
 

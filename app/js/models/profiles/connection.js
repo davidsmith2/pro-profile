@@ -3,7 +3,7 @@ define([
 
 function () {
 
-    var Profile = Backbone.Model.extend({
+    var ConnectionProfile = Backbone.Model.extend({
 
         url: 'people/id=',
 
@@ -41,6 +41,6 @@ function () {
 
     });
 
-    return Profile;
+    return ConnectionProfile;
 
 });

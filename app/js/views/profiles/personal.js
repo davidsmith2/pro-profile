@@ -1,5 +1,5 @@
 define([
-    'views/profiles/profile'
+    'views/profiles/connection'
 ], 
 
 function (ProfileView) {

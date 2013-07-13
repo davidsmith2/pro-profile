@@ -1,10 +1,10 @@
 define([
-    'views/profiles/connection'
+    'views/connections/item'
 ], 
 
-function (ConnectionView) {
+function (ConnectionItemView) {
 
-    var ConnectionsView = Backbone.View.extend({
+    var ConnectionsListView = Backbone.View.extend({
 
         id: 'connections',
         tagName: 'ul',
@@ -22,7 +22,7 @@ function (ConnectionView) {
         },
 
         renderConnection: function (connection) {
-            var connection = new ConnectionView({ model: connection });
+            var connection = new ConnectionItemView({ model: connection });
             this.$el.append(connection.render().el);
             return this;
         },
@@ -33,6 +33,6 @@ function (ConnectionView) {
 
     });
 
-    return ConnectionsView;
+    return ConnectionsListView;
 
 });

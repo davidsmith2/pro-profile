@@ -1,22 +1,22 @@
 define([
     'api-manager',
     'collections/connections',
-    'models/profile',
-    'models/personal-profile',
+    'models/profiles/connection',
+    'models/profiles/personal',
     'router',
     'views/app', 
     'views/auth',
     'views/nav' 
 ], 
 
-function (ApiManager, Connections, Profile, PersonalProfile, Router, AppView, AuthView, NavView) {
+function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, AppView, AuthView, NavView) {
 
     var App = function () {
 
         var self = this;
 
         // models and collections
-        this.models.profile = new Profile();
+        this.models.connectionProfile = new ConnectionProfile();
         this.models.personalProfile = new PersonalProfile();
         this.collections.connections = new Connections();
 
@@ -72,7 +72,7 @@ function (ApiManager, Connections, Profile, PersonalProfile, Router, AppView, Au
                     fields: '(id,first-name,last-name,headline,location)'
                 },
                 success: function (collection, response, options) {
-                    self.router.navigate('!/connections', { trigger: true });
+                    self.router.navigate('!/people', { trigger: true });
                 },
                 error: function () {
                     console.log('error');
@@ -82,7 +82,7 @@ function (ApiManager, Connections, Profile, PersonalProfile, Router, AppView, Au
 
         logout: function () {
             this.views.nav.$el.empty();
-            this.router.navigate('!/home', { trigger: true });
+            this.router.navigate('!/index', { trigger: true });
         }
 
     };

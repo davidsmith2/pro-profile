@@ -1,21 +1,21 @@
 define([
-    'views/home',
-    'views/profiles/personal-profile',
-    'views/profiles/profile',
-    'views/profiles/connections'
+    'views/index',
+    'views/profiles/connection',
+    'views/profiles/personal',
+    'views/connections/list'
 ], 
 
-function (HomeView, PersonalProfileView, ProfileView, ConnectionsView) {
+function (IndexView, PersonalProfileView, ConnectionProfileView, ConnectionsListView) {
 
     var Router = Backbone.Router.extend({
 
         routes: {
-            '!/home':               'home',
             '!/login':              'login',
             '!/logout':             'logout',
-            '!/people/~':           'personalProfile',
-            '!/people/id=:id':      'profile',
-            '!/connections':        'connections'
+            '!/index':              'viewIndex',
+            '!/people':             'viewConnections',
+            '!/people/~':           'viewPersonalProfile',
+            '!/people/id=:id':      'viewConnectionProfile',
         },
 
         initialize: function (_app) {
@@ -30,23 +30,23 @@ function (HomeView, PersonalProfileView, ProfileView, ConnectionsView) {
 
         logout: function () {},
 
-        home: function () {
-            var view = new HomeView();
+        viewIndex: function () {
+            var view = new IndexView();
             this.views.app.showView(view);
         },
 
-        personalProfile: function () {
+        viewConnections: function () {
+            var view = new ConnectionsListView({ collection: this.collections.connections });
+            this.views.app.showView(view);
+        },
+
+        viewConnectionProfile: function () {
+            var view = new ConnectionProfileView({ model: this.models.connectionProfile });
+            this.views.app.showView(view);
+        },
+
+        viewPersonalProfile: function () {
             var view = new PersonalProfileView({ model: this.models.personalProfile });
-            this.views.app.showView(view);
-        },
-
-        profile: function () {
-            var view = new ProfileView({ model: this.models.profile });
-            this.views.app.showView(view);
-        },
-
-        connections: function () {
-            var view = new ConnectionsView({ collection: this.collections.connections });
             this.views.app.showView(view);
         }
 
