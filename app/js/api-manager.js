@@ -59,12 +59,12 @@ function (config) {
         }
 
         function initIN () {
-            IN.init({ api_key: config.api_key, authorize: true });
+            IN.init({ api_key: config.api_key, authorize: false });
         }
 
         function checkAPI () {
             if (IN.API) {
-                self.trigger('init');
+                self.trigger('ready');
             } else {
                 setTimeout(checkAPI, 100);
             }
@@ -82,9 +82,20 @@ function (config) {
             break;
 
             case 'read':
-                url = model.url;
-                if (options.data.fields) {
-                    url += ':' + options.data.fields;
+                if (options.data) {
+/*
+                    if (options.data.model) {
+                        model = options.data.model;
+                    }
+*/
+                    if (options.data.url) {
+                        url = options.data.url
+                    } else {
+                        url = model.url;
+                    }
+                    if (options.data.fields) {
+                        url += ':' + options.data.fields;
+                    }
                 }
                 request = IN.API.Raw(url);
                 Backbone.apiRequest(request, method, model, options);

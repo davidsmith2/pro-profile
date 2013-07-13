@@ -4,44 +4,52 @@ define([
 
 function (template) {
 
+    var app;
+
     var AuthView = Backbone.View.extend({
 
         el: '#auth',
-        template: _.template(template),
         loginButton: '#login-button',
         logoutButton: '#logout-button',
+        template: _.template(template),
 
         events: {
             'click #login-button': 'login',
             'click #logout-button': 'logout'
         },
 
-        initialize: function (options) {
-            this.apiManager = options.apiManager;
+        initialize: function (_app) {
+            var self = this;
+            this.app = _app;
+            this.app.apiManager.on('authorize', this.onLogin, this);
+            this.app.apiManager.on('logout', this.onLogout, this);
         },
 
         render: function (callback) {
-            var self = this;
             this.$el.html(this.template());
             if (callback) callback();
             return this;
         },
 
-        login: function () {
-            var self = this;
-            this.apiManager.authorize(function () {
-                self.$loginButton.hide();
-                self.$logoutButton.show();
-            });
+        login: function (event) {
+            event.preventDefault();
+            this.app.apiManager.authorize();
         },
 
-        logout: function () {
-            var self = this;
-            this.apiManager.logout(function () {
-                self.$logoutButton.hide();
-                self.$loginButton.show();
-            });
+        logout: function (event) {
+            event.preventDefault();
+            this.app.apiManager.logout();
         },
+
+        onLogin: function () {
+            this.$loginButton.hide();
+            this.$logoutButton.show();
+        },
+
+        onLogout: function () {
+            this.$logoutButton.hide();
+            this.$loginButton.show();
+        }
 
     });
 

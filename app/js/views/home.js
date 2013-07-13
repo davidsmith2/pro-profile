@@ -6,7 +6,8 @@ function (template) {
     
     var HomeView = Backbone.View.extend({
 
-        el: '#home',
+        id: '#home',
+        tagName: 'div',
         template: _.template(template),
 
         initialize: function () {},
@@ -19,5 +20,5 @@ function (template) {
     });
 
     return HomeView;
-    
+
 });

@@ -1,34 +1,47 @@
 define([
+    'views/home',
+    'views/profiles/profile',
+    'views/profiles/connections'
 ], 
 
-function () {
+function (HomeView, ProfileView, ConnectionsView) {
 
     var Router = Backbone.Router.extend({
 
         routes: {
-            '!/home':       'home',
-            '!/login':      'login',
-            '!/logout':     'logout',
-            '!/profile':    'profile'
+            '!/home':               'home',
+            '!/login':              'login',
+            '!/logout':             'logout',
+            '!/people/id=:id':      'profile',
+            '!/connections':        'connections'
         },
 
-        initialize: function () {
-            Backbone.history.start();
+        initialize: function (_app) {
+            var app = _app;
+            this.apiManager = app.apiManager;
+            this.collections = app.collections;
+            this.models = app.models;
+            this.views = app.views;
         },
 
-        home: function () {},
+        login: function () {},
 
-        login: function () {
-            this.navigate('!/profile');
-            this.trigger('login');
+        logout: function () {},
+
+        home: function () {
+            view = new HomeView();
+            this.views.app.showView(view);
         },
 
-        logout: function () {
-            this.navigate('!/home');
-            this.trigger('logout');
+        profile: function () {
+            var view = new ProfileView({ model: this.models.profile });
+            this.views.app.showView(view);
         },
 
-        profile: function () {}
+        connections: function () {
+            var view = new ConnectionsView({ collection: this.collections.connections });
+            this.views.app.showView(view);
+        }
 
     });
 

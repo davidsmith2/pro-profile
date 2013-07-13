@@ -1,8 +1,8 @@
 define([
-    'config'
 ], 
 
-function (config) {
+function () {
+
     var Profile = Backbone.Model.extend({
         url: 'people/~',
         defaults: {
@@ -31,15 +31,9 @@ function (config) {
                     }
                 ]
             }
-        },
-        getData: function () {
-            var self = this;
-            this.fetch({
-                data: {
-                    fields: '(id,first-name,last-name,headline,location)'
-                }
-            });
         }
     });
+
     return Profile;
+
 });

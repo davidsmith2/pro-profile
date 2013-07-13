@@ -8,21 +8,20 @@ function (config, mustache, template) {
 
     var ProfileView = Backbone.View.extend({
 
-        el: '#profiles',
+        id: '#profile',
+        tagName: 'div',
+        template: _.template(template),
 
         initialize: function (options) {
-            this.app = options.app;
+            this.model = options.model;
+            this.model.on('reset', this.reset, this);
         },
 
         render: function () {
-            var data, html;
-            template = $(template).html();
-            data = this.app.models.profile.attributes;
-            html = mustache.render(template, data);
-            this.$el.html(html);
+            this.$el.html(this.template(this.model.attributes));
             return this;
-        }
-        
+        },
+
     });
 
     return ProfileView;
