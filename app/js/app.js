@@ -1,20 +1,19 @@
 define([
     'api-manager',
     'collections/connections',
-    'models/profile',
     'router',
     'views/app', 
-    'views/auth'
+    'views/auth',
+    'views/nav' 
 ], 
 
-function (ApiManager, Connections, Profile, Router, AppView, AuthView) {
+function (ApiManager, Connections, Router, AppView, AuthView, NavView) {
 
     var App = function () {
 
         var self = this;
 
         this.collections.connections = new Connections();
-        this.models.profile = new Profile();
 
         this.apiManager = new ApiManager();
 
@@ -54,7 +53,12 @@ function (ApiManager, Connections, Profile, Router, AppView, AuthView) {
         },
 
         login: function () {
+
             var connections = this.collections.connections, self = this;
+
+            this.views.nav = new NavView();
+            this.views.nav.render();
+
             connections.fetch({
                 data: {
                     url: connections.url,

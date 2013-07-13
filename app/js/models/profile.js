@@ -4,7 +4,7 @@ define([
 function () {
 
     var Profile = Backbone.Model.extend({
-        url: 'people/~',
+        url: 'people/id=',
         defaults: {
             id: '',
             firstName: '',

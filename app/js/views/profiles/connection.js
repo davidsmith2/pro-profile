@@ -26,10 +26,8 @@ function (template) {
 
         viewProfile: function (event) {
             event.preventDefault();
-            var id, url, self = this;
-            id = this.model.get('id');
-            url = this.model.url.slice(0, this.model.url.length - 1);
-            url = url + 'id=' + id;
+            var url, self = this;
+            url = this.model.url + this.model.get('id');
             this.model.set('url', url);
             this.model.fetch({
                 data: {
@@ -38,9 +36,6 @@ function (template) {
                     fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)'
                 },
                 success: function (model, response, options) {
-
-                    console.log(model);
-
                     proProfile.models.profile = model;
                     proProfile.router.navigate('!/' + url, { trigger: true });
                 },

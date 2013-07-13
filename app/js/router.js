@@ -1,10 +1,11 @@
 define([
     'views/home',
+    'views/profiles/personal-profile',
     'views/profiles/profile',
     'views/profiles/connections'
 ], 
 
-function (HomeView, ProfileView, ConnectionsView) {
+function (HomeView, PersonalProfileView, ProfileView, ConnectionsView) {
 
     var Router = Backbone.Router.extend({
 
@@ -12,6 +13,7 @@ function (HomeView, ProfileView, ConnectionsView) {
             '!/home':               'home',
             '!/login':              'login',
             '!/logout':             'logout',
+            '!/people/~':           'personalProfile',
             '!/people/id=:id':      'profile',
             '!/connections':        'connections'
         },
@@ -29,7 +31,12 @@ function (HomeView, ProfileView, ConnectionsView) {
         logout: function () {},
 
         home: function () {
-            view = new HomeView();
+            var view = new HomeView();
+            this.views.app.showView(view);
+        },
+
+        personalProfile: function () {
+            var view = new PersonalProfileView({ model: this.models.personalProfile });
             this.views.app.showView(view);
         },
 
