@@ -33,8 +33,8 @@ function (template) {
 
         viewConnectionProfile: function () {
             var url = '!/' + this.model.get('url');
-            proProfile.router.viewConnectionProfile(this.model);
             proProfile.router.navigate(url, { trigger: false });
+            proProfile.router.viewConnectionProfile(this.model);
         }
 
     });
