@@ -55,15 +55,15 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
 
         onLogin: function () {
             var self = this;
-            this.views.nav.render();
-            this.collections.connections.fetch({
+            this.models.personalProfile.fetch({
                 data: {
-                    url: this.collections.connections.url,
-                    fields: '(id,first-name,last-name,headline,location)'
+                    url: this.models.personalProfile.url,
+                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)'
                 },
                 success: function (collection, response, options) {
-                    self.router.navigate('!/people');
-                    self.router.viewConnections();
+                    self.router.navigate('!/people/~');
+                    self.router.viewPersonalProfile();
+                    self.views.nav.render();
                 },
                 error: function () {
                     console.log('error');

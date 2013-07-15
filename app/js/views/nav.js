@@ -11,7 +11,8 @@ function (template) {
         template: _.template(template),
 
         events: {
-            'click #personal-profile': 'viewPersonalProfile'
+            'click #personal-profile': 'viewPersonalProfile',
+            'click #connections': 'viewConnections'
         },
 
         initialize: function () {},
@@ -32,6 +33,25 @@ function (template) {
                 success: function (model, response, options) {
                     proProfile.models.personalProfile = model;
                     proProfile.router.navigate('!/people/~', { trigger: true });
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
+        },
+
+        viewConnections: function (event) {
+            var self = this;
+            event.preventDefault();
+            this.collection = proProfile.collections.connections;
+            this.collection.fetch({
+                data: {
+                    collection: this.collection,
+                    fields: '(id,first-name,last-name,headline,location)'
+                },
+                success: function (model, response, options) {
+                    proProfile.collections.connections = self.collection;
+                    proProfile.router.navigate('!/people', { trigger: true });
                 },
                 error: function () {
                     console.log('error');
