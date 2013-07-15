@@ -1,12 +1,12 @@
 define([
-    'lib/text!templates/index.html'
+    'lib/text!templates/auth/logout.html'
 ], 
 
 function (template) {
     
-    var HomeView = Backbone.View.extend({
+    var LogoutView = Backbone.View.extend({
 
-        id: '#home',
+        id: '#logout',
         tagName: 'div',
         template: _.template(template),
 
@@ -19,6 +19,6 @@ function (template) {
 
     });
 
-    return HomeView;
+    return LogoutView;
 
 });

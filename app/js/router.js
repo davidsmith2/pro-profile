@@ -1,37 +1,38 @@
 define([
-    'views/index',
+    'views/auth/login',
+    'views/auth/logout',
     'views/profiles/connection',
     'views/profiles/personal',
     'views/connections/list'
 ], 
 
-function (IndexView, PersonalProfileView, ConnectionProfileView, ConnectionsListView) {
+function (LoginView, LogoutView, PersonalProfileView, ConnectionProfileView, ConnectionsListView) {
 
     var Router = Backbone.Router.extend({
 
         routes: {
-            '!/login':              'login',
-            '!/logout':             'logout',
-            '!/index':              'viewIndex',
+            '!/login':              'viewLogin',
+            '!/logout':             'viewLogout',
             '!/people':             'viewConnections',
             '!/people/~':           'viewPersonalProfile',
             '!/people/id=:id':      'viewConnectionProfile',
         },
 
         initialize: function (_app) {
-            var app = _app;
-            this.apiManager = app.apiManager;
-            this.collections = app.collections;
-            this.models = app.models;
-            this.views = app.views;
+            this.app = _app;
+            this.apiManager = this.app.apiManager;
+            this.collections = this.app.collections;
+            this.models = this.app.models;
+            this.views = this.app.views;
         },
 
-        login: function () {},
+        viewLogin: function () {
+            var view = new LoginView({ app: this.app });
+            this.views.app.showView(view);
+        },
 
-        logout: function () {},
-
-        viewIndex: function () {
-            var view = new IndexView();
+        viewLogout: function () {
+            var view = new LogoutView();
             this.views.app.showView(view);
         },
 

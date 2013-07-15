@@ -5,42 +5,32 @@ define([
     'models/profiles/personal',
     'router',
     'views/app', 
-    'views/auth',
     'views/nav' 
 ], 
 
-function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, AppView, AuthView, NavView) {
+function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, AppView, NavView) {
 
     var App = function () {
 
-        var self = this;
-
-        // models and collections
+        // create models and collections
         this.models.connectionProfile = new ConnectionProfile();
         this.models.personalProfile = new PersonalProfile();
         this.collections.connections = new Connections();
 
-        // API manager
+        // create API manager
         this.apiManager = new ApiManager();
 
-        // Views
-        this.views.app = new AppView();
-        this.views.auth = new AuthView(this);
+        // create main views
+        this.views.app = new AppView(this);
         this.views.nav = new NavView();
 
-        // router
+        // create router
         this.router = new Router(this);
 
-        // render and hide the login and logout buttons until we know which is required
-        this.views.auth.render(function () {
-            self.views.auth.$loginButton = $(self.views.auth.loginButton).hide();
-            self.views.auth.$logoutButton = $(self.views.auth.logoutButton).hide();
-        });
-
         // listen out for these events
-        this.apiManager.on('ready', self.init, self);
-        this.apiManager.on('authorize', self.login, self);
-        this.apiManager.on('logout', self.logout, self);
+        this.apiManager.on('ready', this.onReady, this);
+        this.apiManager.on('authorize', this.onLogin, this);
+        this.apiManager.on('logout', this.onLogout, this);
 
     };
 
@@ -51,19 +41,19 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         router: {},
         views: {},
 
-        init: function () {
+        onReady: function () {
             var self = this;
             Backbone.history.start();
             if (this.apiManager.isAuthorized()) {
-                this.views.auth.$logoutButton.show();
+                this.views.app.$logoutLink.show();
                 this.apiManager.trigger('authorize');
             } else {
-                this.views.auth.$loginButton.show();
+                this.views.app.$loginLink.show();
                 this.apiManager.trigger('logout');
             }
         },
 
-        login: function () {
+        onLogin: function () {
             var self = this;
             this.views.nav.render();
             this.collections.connections.fetch({
@@ -72,7 +62,8 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
                     fields: '(id,first-name,last-name,headline,location)'
                 },
                 success: function (collection, response, options) {
-                    self.router.navigate('!/people', { trigger: true });
+                    self.router.navigate('!/people');
+                    self.router.viewConnections();
                 },
                 error: function () {
                     console.log('error');
@@ -80,9 +71,9 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
             });
         },
 
-        logout: function () {
+        onLogout: function () {
             this.views.nav.$el.empty();
-            this.router.navigate('!/index', { trigger: true });
+            this.router.viewLogout();
         }
 
     };

@@ -11,7 +11,7 @@ function (template) {
         template: _.template(template),
 
         events: {
-            'click #profile-n': 'viewProfile'
+            'click #personal-profile': 'viewPersonalProfile'
         },
 
         initialize: function () {},
@@ -21,7 +21,7 @@ function (template) {
             return this;
         },
 
-        viewProfile: function (event) {
+        viewPersonalProfile: function (event) {
             event.preventDefault();
             this.model = proProfile.models.personalProfile;
             this.model.fetch({
