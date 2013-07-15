@@ -1,4 +1,4 @@
 proProfile
 ===========
 
-Custom LinkedIn profile using the LinkedIn API
+A Backbone.js/RequireJS app that leverages the LinkedIn JavaScript API.
