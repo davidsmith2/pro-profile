@@ -1,5 +1,5 @@
 define([
-    'lib/text!templates/auth/login.html'
+    'lib/text/text!templates/auth/login.html'
 ], 
 
 function (template) {

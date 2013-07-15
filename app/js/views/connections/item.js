@@ -1,5 +1,5 @@
 define([
-    'lib/text!templates/connections/item.html'
+    'lib/text/text!templates/connections/item.html'
 ], 
 
 function (template) {

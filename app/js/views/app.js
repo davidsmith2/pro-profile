@@ -1,16 +1,8 @@
 define([
-    'lib/text!templates/app.html'
+    'lib/text/text!templates/app.html'
 ], 
 
 function (template) {
-
-    Backbone.View.prototype.close = function () {
-        this.remove();
-        this.unbind();
-        if (this.onClose) {
-            this.onClose();
-        }
-    };
 
     var AppView = Backbone.View.extend({
 

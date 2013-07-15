@@ -1,23 +1,26 @@
 requirejs.config({
 	baseUrl: 'js',
 	paths: {
-        'text': 'lib/text',
         'linkedin': 'http://platform.linkedin.com/in.js?async=true',
-        'mustache': 'lib/mustache'
+        'mustache': 'lib/mustache/mustache',
+        'text': 'lib/text/text'
 	},
 	shim: {
-        'lib/underscore-min': {
+        'lib/underscore/underscore-min': {
             exports: '_'
         },
-        'lib/backbone-min': {
+        'lib/backbone/backbone-min': {
             exports: 'Backbone',
-            deps: ['lib/underscore-min']
+            deps: ['lib/underscore/underscore-min']
+        },
+        'lib/backbone/backbone-overrides': {
+            deps: ['lib/backbone/backbone-min', 'lib/underscore/underscore-min']
         },
         'app': {
             deps: [
-                'lib/underscore-min', 
-                'lib/backbone-min',
-                'lib/mustache'
+                'lib/underscore/underscore-min', 
+                'lib/backbone/backbone-min',
+                'lib/backbone/backbone-overrides'
             ]
         }
 	}

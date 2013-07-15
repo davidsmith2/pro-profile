@@ -1,5 +1,5 @@
 define([
-    'lib/text!templates/nav.html'
+    'lib/text/text!templates/nav.html'
 ], 
 
 function (template) {

@@ -1,7 +1,7 @@
 define([
     'config',
-    'lib/mustache',
-    'lib/text!templates/profiles/master.html'
+    'lib/mustache/mustache',
+    'lib/text/text!templates/profiles/master.html'
 ], 
 
 function (config, mustache, template) {
