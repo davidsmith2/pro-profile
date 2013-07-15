@@ -38,6 +38,7 @@ function (template) {
 
         viewPersonalProfile: function () {
             this.app.router.navigate('!/people/~', { trigger: true });
+
         },
 
         viewConnections: function () {

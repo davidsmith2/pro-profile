@@ -29,6 +29,14 @@ function (config) {
             });
         };
 
+        this.refresh = function () {
+            return IN.User.refresh();
+        };
+
+        this.setAuthorized = function () {
+            return IN.User.setAuthorized();
+        };
+
     }
 
     _.extend(ApiManager.prototype, Backbone.Events);

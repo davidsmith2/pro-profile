@@ -50,7 +50,12 @@ function () {
                 success: function (model, response, options) {
                     self.trigger('success');
                 },
-                error: function () {
+                error: function (model, response, options) {
+
+                    console.log(model);
+                    console.log(response);
+                    console.log(options);
+
                     self.trigger('error');
                 }
             });

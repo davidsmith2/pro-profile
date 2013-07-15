@@ -31,7 +31,7 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         this.apiManager.on('ready', this.onReady, this);
         this.apiManager.on('authorize', this.onLogin, this);
         this.apiManager.on('logout', this.onLogout, this);
-        this.models.personalProfile.on('success', this.viewFirstPage, this);
+        this.models.personalProfile.on('success', this.viewPersonalProfile, this);
 
     };
 
@@ -43,7 +43,6 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         views: {},
 
         onReady: function () {
-            var self = this;
             Backbone.history.start();
             if (this.apiManager.isAuthorized()) {
                 this.views.app.$logoutLink.show();
@@ -55,18 +54,17 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         },
 
         onLogin: function () {
-            var self = this;
             this.models.personalProfile.update();
         },
 
         onLogout: function () {
-            this.views.nav.$el.empty();
             this.router.viewLogout();
+            this.views.nav.$el.empty();
         },
 
-        viewFirstPage: function () {
+        viewPersonalProfile: function () {
+            this.router.viewPersonalProfile();
             this.views.nav.render();
-            this.router.navigate('!/people/~', { trigger: true });
         }
 
     };
