@@ -37,12 +37,14 @@ function (LoginView, LogoutView, PersonalProfileView, ConnectionProfileView, Con
         },
 
         viewConnections: function () {
-            var view = new ConnectionsListView({ collection: this.collections.connections });
+            var view = new ConnectionsListView({
+                collection: this.collections.connections
+            });
             this.views.app.showView(view);
         },
 
-        viewConnectionProfile: function () {
-            var view = new ConnectionProfileView({ model: this.models.connectionProfile });
+        viewConnectionProfile: function (model) {
+            var view = new ConnectionProfileView({ model: model });
             this.views.app.showView(view);
         },
 

@@ -11,52 +11,37 @@ function (template) {
         template: _.template(template),
 
         events: {
-            'click #personal-profile': 'viewPersonalProfile',
-            'click #connections': 'viewConnections'
+            'click #personal-profile': 'getPersonalProfile',
+            'click #connections': 'getConnections'
         },
 
-        initialize: function () {},
+        initialize: function (options) {
+            this.app = options.app;
+            this.app.models.personalProfile.on('success', this.viewPersonalProfile, this);
+            this.app.collections.connections.on('success', this.viewConnections, this);
+        },
 
         render: function () {
             this.$el.html(this.template());
             return this;
         },
 
-        viewPersonalProfile: function (event) {
+        getPersonalProfile: function (event) {
             event.preventDefault();
-            this.model = proProfile.models.personalProfile;
-            this.model.fetch({
-                data: {
-                    model: this.model,
-                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)'
-                },
-                success: function (model, response, options) {
-                    proProfile.models.personalProfile = model;
-                    proProfile.router.navigate('!/people/~', { trigger: true });
-                },
-                error: function () {
-                    console.log('error');
-                }
-            });
+            this.app.models.personalProfile.update();
         },
 
-        viewConnections: function (event) {
-            var self = this;
+        getConnections: function (event) {
             event.preventDefault();
-            this.collection = proProfile.collections.connections;
-            this.collection.fetch({
-                data: {
-                    collection: this.collection,
-                    fields: '(id,first-name,last-name,headline,location)'
-                },
-                success: function (model, response, options) {
-                    proProfile.collections.connections = self.collection;
-                    proProfile.router.navigate('!/people', { trigger: true });
-                },
-                error: function () {
-                    console.log('error');
-                }
-            });
+            this.app.collections.connections.update()
+        },
+
+        viewPersonalProfile: function () {
+            this.app.router.navigate('!/people/~', { trigger: true });
+        },
+
+        viewConnections: function () {
+            this.app.router.navigate('!/people', { trigger: true });
         }
 
     });

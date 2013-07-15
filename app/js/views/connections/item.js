@@ -10,10 +10,12 @@ function (template) {
         template: _.template(template),
 
         events: {
-            'click': 'viewProfile'
+            'click': 'getConnectionProfile'
         },
 
-        initialize: function () {},
+        initialize: function () {
+            this.model.on('success', this.viewConnectionProfile, this);
+        },
 
         render: function () {
             var $el = $(this.el);
@@ -21,26 +23,18 @@ function (template) {
             return this;
         },
 
-        viewProfile: function (event) {
+        getConnectionProfile: function (event) {
             event.preventDefault();
-            var url, self = this;
-            url = this.model.url + this.model.get('id');
+            var url = (this.model.url + this.model.get('id'));
             this.model.set('url', url);
-            this.model.fetch({
-                data: {
-                    model: this.model,
-                    url: this.model.get('url', url),
-                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)'
-                },
-                success: function (model, response, options) {
-                    proProfile.models.connectionProfile = model;
-                    proProfile.router.navigate('!/' + url, { trigger: true });
-                },
-                error: function () {
-                    console.log('error');
-                }
-            });
+            this.model.update();
+            this.model.destroy();
+        },
 
+        viewConnectionProfile: function () {
+            var url = '!/' + this.model.get('url');
+            proProfile.router.viewConnectionProfile(this.model);
+            proProfile.router.navigate(url, { trigger: false });
         }
 
     });

@@ -37,6 +37,23 @@ function () {
 
         isPrivate: function () {
             return (this.attributes.id === 'private');
+        },
+
+        update: function () {
+            var self = this;
+            this.fetch({
+                data: {
+                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)',
+                    model: this,
+                    url: this.get('url')
+                },
+                success: function (model, response, options) {
+                    self.trigger('success');
+                },
+                error: function () {
+                    self.trigger('error');
+                }
+            });
         }
 
     });

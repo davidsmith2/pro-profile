@@ -20,17 +20,18 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         // create API manager
         this.apiManager = new ApiManager();
 
-        // create main views
-        this.views.app = new AppView(this);
-        this.views.nav = new NavView();
-
         // create router
         this.router = new Router(this);
+
+        // create main views
+        this.views.app = new AppView(this);
+        this.views.nav = new NavView({ app: this });
 
         // listen out for these events
         this.apiManager.on('ready', this.onReady, this);
         this.apiManager.on('authorize', this.onLogin, this);
         this.apiManager.on('logout', this.onLogout, this);
+        this.models.personalProfile.on('success', this.viewFirstPage, this);
 
     };
 
@@ -55,25 +56,17 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
 
         onLogin: function () {
             var self = this;
-            this.models.personalProfile.fetch({
-                data: {
-                    url: this.models.personalProfile.url,
-                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)'
-                },
-                success: function (collection, response, options) {
-                    self.router.navigate('!/people/~');
-                    self.router.viewPersonalProfile();
-                    self.views.nav.render();
-                },
-                error: function () {
-                    console.log('error');
-                }
-            });
+            this.models.personalProfile.update();
         },
 
         onLogout: function () {
             this.views.nav.$el.empty();
             this.router.viewLogout();
+        },
+
+        viewFirstPage: function () {
+            this.views.nav.render();
+            this.router.navigate('!/people/~', { trigger: true });
         }
 
     };
