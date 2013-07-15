@@ -51,11 +51,6 @@ function () {
                     self.trigger('success');
                 },
                 error: function (model, response, options) {
-
-                    console.log(model);
-                    console.log(response);
-                    console.log(options);
-
                     self.trigger('error');
                 }
             });

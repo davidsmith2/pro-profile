@@ -17,10 +17,10 @@ function (ConnectionProfile) {
                     model: this,
                     url: this.url,
                 },
-                success: function () {
+                success: function (collection, response, options) {
                     self.trigger('success');
                 },
-                error: function () {
+                error: function (collection, response, options) {
                     self.trigger('success');
                 }
 
