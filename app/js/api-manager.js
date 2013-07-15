@@ -91,11 +91,9 @@ function (config) {
 
             case 'read':
                 if (options.data) {
-/*
                     if (options.data.model) {
                         model = options.data.model;
                     }
-*/
                     if (options.data.url) {
                         url = options.data.url
                     } else {

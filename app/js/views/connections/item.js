@@ -4,17 +4,17 @@ define([
 
 function (template) {
 
-    var ConnectionView = Backbone.View.extend({
+    var ConnectionItemView = Backbone.View.extend({
 
         tagName: 'li',
         template: _.template(template),
 
         events: {
-            'click': 'getConnectionProfile'
+            'click': 'getProfile'
         },
 
-        initialize: function () {
-            this.model.on('success', this.viewConnectionProfile, this);
+        initialize: function (options) {
+            this.model = options.model;
         },
 
         render: function () {
@@ -23,22 +23,26 @@ function (template) {
             return this;
         },
 
-        getConnectionProfile: function (event) {
-            event.preventDefault();
-            var url = (this.model.url + this.model.get('id'));
-            this.model.set('url', url);
-            this.model.update();
-            this.model.destroy();
-        },
+        getProfile: function () {
+            var url = this.model.url + this.model.get('id');
+            this.model.fetch({
+                data: {
+                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)',
+                    url: url,
+                },
+                success: function (model, response, options) {
+                    proProfile.router.viewProfile(model);
+                    proProfile.router.navigate('!/' + url);
+                },
+                error: function (model, response, options) {
+                    console.log(response);
+                }
+            })
 
-        viewConnectionProfile: function () {
-            var url = '!/' + this.model.get('url');
-            proProfile.router.navigate(url, { trigger: false });
-            proProfile.router.viewConnectionProfile(this.model);
         }
 
     });
 
-    return ConnectionView;
+    return ConnectionItemView;
 
 });

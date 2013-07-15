@@ -6,14 +6,13 @@ define([
 
 function (config, mustache, template) {
 
-    var ConnectionProfileView = Backbone.View.extend({
+    var ProfileView = Backbone.View.extend({
 
         id: '#profile',
         tagName: 'div',
 
         initialize: function (options) {
             this.model = options.model;
-            this.model.on('reset', this.reset, this);
         },
 
         render: function () {
@@ -23,6 +22,6 @@ function (config, mustache, template) {
 
     });
 
-    return ConnectionProfileView;
+    return ProfileView;
 
 });

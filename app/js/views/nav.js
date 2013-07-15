@@ -11,14 +11,12 @@ function (template) {
         template: _.template(template),
 
         events: {
-            'click #personal-profile': 'getPersonalProfile',
+            'click #my-profile': 'getMyProfile',
             'click #connections': 'getConnections'
         },
 
         initialize: function (options) {
             this.app = options.app;
-            this.app.models.personalProfile.on('success', this.viewPersonalProfile, this);
-            this.app.collections.connections.on('success', this.viewConnections, this);
         },
 
         render: function () {
@@ -26,23 +24,43 @@ function (template) {
             return this;
         },
 
-        getPersonalProfile: function (event) {
-            event.preventDefault();
-            this.app.models.personalProfile.update();
+        getMyProfile: function () {
+            var model, url;
+            model = this.app.models.personalProfile;
+            url = model.url;
+            model.fetch({
+                data: {
+                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)',
+                    url: url,
+                },
+                success: function (model, response, options) {
+                    proProfile.router.viewProfile(model);
+                    proProfile.router.navigate('!/' + url);
+                },
+                error: function (model, response, options) {
+                    console.log(response);
+                }
+            });
+            return false;
         },
 
-        getConnections: function (event) {
-            event.preventDefault();
-            this.app.collections.connections.update()
-        },
-
-        viewPersonalProfile: function () {
-            this.app.router.navigate('!/people/~', { trigger: true });
-
-        },
-
-        viewConnections: function () {
-            this.app.router.navigate('!/people', { trigger: true });
+        getConnections: function () {
+            var collection, self = this;
+            collection = this.app.collections.connections;
+            collection.fetch({
+                data: {
+                    fields: '(id,first-name,last-name,headline,location)',
+                    url: collection.url
+                },
+                success: function (collection, response, options) {
+                    self.app.router.viewConnections();
+                    self.app.router.navigate('!/people');
+                },
+                error: function (collection, response, options) {
+                    console.log(response);
+                }
+            });
+            return false;
         }
 
     });

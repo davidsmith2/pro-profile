@@ -13,9 +13,9 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
     var App = function () {
 
         // create models and collections
+        this.collections.connections = new Connections();
         this.models.connectionProfile = new ConnectionProfile();
         this.models.personalProfile = new PersonalProfile();
-        this.collections.connections = new Connections();
 
         // create API manager
         this.apiManager = new ApiManager();
@@ -31,7 +31,6 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         this.apiManager.on('ready', this.onReady, this);
         this.apiManager.on('authorize', this.onLogin, this);
         this.apiManager.on('logout', this.onLogout, this);
-        this.models.personalProfile.on('success', this.viewPersonalProfile, this);
 
     };
 
@@ -54,17 +53,26 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         },
 
         onLogin: function () {
-            this.models.personalProfile.update();
+            var self = this;
+            this.collections.connections.fetch({
+                data: {
+                    fields: '(id,first-name,last-name,headline,location)',
+                    url: this.collections.connections.url
+                },
+                success: function (collection, response, options) {
+                    self.router.viewConnections();
+                    self.router.navigate('!/people');
+                    self.views.nav.render();
+                },
+                error: function (collection, response, options) {
+                    console.log(response);
+                }
+            });
         },
 
         onLogout: function () {
             this.router.viewLogout();
             this.views.nav.$el.empty();
-        },
-
-        viewPersonalProfile: function () {
-            this.router.viewPersonalProfile();
-            this.views.nav.render();
         }
 
     };
