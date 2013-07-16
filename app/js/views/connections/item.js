@@ -23,7 +23,8 @@ function (template) {
             return this;
         },
 
-        getProfile: function () {
+        getProfile: function (event) {
+            event.preventDefault();
             var url = this.model.url + this.model.get('id');
             this.model.fetch({
                 data: {
@@ -35,7 +36,7 @@ function (template) {
                     proProfile.router.navigate('!/' + url);
                 },
                 error: function (model, response, options) {
-                    console.log(response);
+                    console.log('error getting data');
                 }
             })
 

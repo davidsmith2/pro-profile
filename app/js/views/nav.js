@@ -11,7 +11,7 @@ function (template) {
         template: _.template(template),
 
         events: {
-            'click #my-profile': 'getMyProfile',
+            'click #personal-profile': 'getPersonalProfile',
             'click #connections': 'getConnections'
         },
 
@@ -24,8 +24,9 @@ function (template) {
             return this;
         },
 
-        getMyProfile: function () {
-            var model, url;
+        getPersonalProfile: function (event) {
+            event.preventDefault();
+            var model, url, self = this;
             model = this.app.models.personalProfile;
             url = model.url;
             model.fetch({
@@ -34,17 +35,17 @@ function (template) {
                     url: url,
                 },
                 success: function (model, response, options) {
-                    proProfile.router.viewProfile(model);
-                    proProfile.router.navigate('!/' + url);
+                    self.app.router.viewProfile(model);
+                    self.app.router.navigate('!/' + url);
                 },
                 error: function (model, response, options) {
-                    console.log(response);
+                    console.log('error getting data');
                 }
             });
-            return false;
         },
 
-        getConnections: function () {
+        getConnections: function (event) {
+            event.preventDefault();
             var collection, self = this;
             collection = this.app.collections.connections;
             collection.fetch({
@@ -54,13 +55,12 @@ function (template) {
                 },
                 success: function (collection, response, options) {
                     self.app.router.viewConnections();
-                    self.app.router.navigate('!/people');
+                    self.app.router.navigate('!/' + collection.url);
                 },
                 error: function (collection, response, options) {
-                    console.log(response);
+                    console.log('error getting data');
                 }
             });
-            return false;
         }
 
     });

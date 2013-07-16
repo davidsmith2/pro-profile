@@ -53,19 +53,19 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         },
 
         onLogin: function () {
-            var self = this;
-            this.collections.connections.fetch({
+            var collection = this.collections.connections, self = this;
+            collection.fetch({
                 data: {
                     fields: '(id,first-name,last-name,headline,location)',
-                    url: this.collections.connections.url
+                    url: collection.url
                 },
                 success: function (collection, response, options) {
                     self.router.viewConnections();
-                    self.router.navigate('!/people');
+                    self.router.navigate('!/' + collection.url);
                     self.views.nav.render();
                 },
                 error: function (collection, response, options) {
-                    console.log(response);
+                    console.log('error getting data');
                 }
             });
         },
