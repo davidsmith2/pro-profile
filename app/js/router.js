@@ -1,13 +1,15 @@
 define([
     'views/auth/login',
     'views/auth/logout',
-    'views/profile',
-    'views/connections/list'
+    'views/connections/list',
+    'views/profile'
 ], 
 
-function (LoginView, LogoutView, ProfileView, ConnectionsListView) {
+function (LoginView, LogoutView, ConnectionsListView, ProfileView) {
 
-    var Router = Backbone.Router.extend({
+    var app, Router;
+
+    Router = Backbone.Router.extend({
 
         routes: {
             '!/login':              'viewLogin',
@@ -18,15 +20,12 @@ function (LoginView, LogoutView, ProfileView, ConnectionsListView) {
         },
 
         initialize: function (_app) {
-            this.app = _app;
-            this.apiManager = this.app.apiManager;
-            this.collections = this.app.collections;
-            this.models = this.app.models;
-            this.views = this.app.views;
+            app = _app;
+            this.views = app.views;
         },
 
         viewLogin: function () {
-            var view = new LoginView({ app: this.app });
+            var view = new LoginView({ app: app });
             this.views.app.showView(view);
         },
 
@@ -35,10 +34,8 @@ function (LoginView, LogoutView, ProfileView, ConnectionsListView) {
             this.views.app.showView(view);
         },
 
-        viewConnections: function () {
-            var view = new ConnectionsListView({
-                collection: this.collections.connections
-            });
+        viewConnections: function (collection) {
+            var view = new ConnectionsListView({ collection: collection });
             this.views.app.showView(view);
         },
 

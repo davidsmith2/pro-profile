@@ -9,21 +9,23 @@ function (ConnectionItemView) {
         id: 'connections',
         tagName: 'ul',
 
-        initialize: function () {},
+        initialize: function (options) {
+            this.collection = options.collection;
+        },
 
-        render: function (collection, response, options) {
+        render: function () {
             var self = this;
-            this.collection.each(function (connection) {
-                if (!connection.isPrivate()) {
-                    self.renderConnection(connection);
+            this.collection.each(function (model) {
+                if (!model.isPrivate()) {
+                    self.renderItem(model);
                 }
             });
             return this;
         },
 
-        renderConnection: function (connection) {
-            var connection = new ConnectionItemView({ model: connection });
-            this.$el.append(connection.render().el);
+        renderItem: function (model) {
+            var item = new ConnectionItemView({ model: model });
+            this.$el.append(item.render().el);
             return this;
         },
 

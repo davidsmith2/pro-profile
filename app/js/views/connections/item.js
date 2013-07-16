@@ -32,8 +32,8 @@ function (template) {
                     url: url,
                 },
                 success: function (model, response, options) {
-                    proProfile.router.viewProfile(model);
                     proProfile.router.navigate('!/' + url);
+                    proProfile.router.viewProfile(model);
                 },
                 error: function (model, response, options) {
                     console.log('error getting data');

@@ -11,8 +11,8 @@ function (template) {
         template: _.template(template),
 
         events: {
-            'click #personal-profile': 'getPersonalProfile',
-            'click #connections': 'getConnections'
+            'click #connections': 'getConnections',
+            'click #personal-profile': 'getPersonalProfile'
         },
 
         initialize: function (options) {
@@ -22,6 +22,25 @@ function (template) {
         render: function () {
             this.$el.html(this.template());
             return this;
+        },
+
+        getConnections: function (event) {
+            event.preventDefault();
+            var collection, self = this;
+            collection = this.app.collections.connections;
+            collection.fetch({
+                data: {
+                    fields: '(id,first-name,last-name,headline,location)',
+                    url: collection.url
+                },
+                success: function (collection, response, options) {
+                    self.app.router.navigate('!/' + collection.url);
+                    self.app.router.viewConnections(collection);
+                },
+                error: function (collection, response, options) {
+                    console.log('error getting data');
+                }
+            });
         },
 
         getPersonalProfile: function (event) {
@@ -35,29 +54,10 @@ function (template) {
                     url: url,
                 },
                 success: function (model, response, options) {
-                    self.app.router.viewProfile(model);
                     self.app.router.navigate('!/' + url);
+                    self.app.router.viewProfile(model);
                 },
                 error: function (model, response, options) {
-                    console.log('error getting data');
-                }
-            });
-        },
-
-        getConnections: function (event) {
-            event.preventDefault();
-            var collection, self = this;
-            collection = this.app.collections.connections;
-            collection.fetch({
-                data: {
-                    fields: '(id,first-name,last-name,headline,location)',
-                    url: collection.url
-                },
-                success: function (collection, response, options) {
-                    self.app.router.viewConnections();
-                    self.app.router.navigate('!/' + collection.url);
-                },
-                error: function (collection, response, options) {
                     console.log('error getting data');
                 }
             });

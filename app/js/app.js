@@ -60,9 +60,9 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
                     url: collection.url
                 },
                 success: function (collection, response, options) {
-                    self.router.viewConnections();
                     self.router.navigate('!/' + collection.url);
                     self.views.nav.render();
+                    self.router.viewConnections(collection);
                 },
                 error: function (collection, response, options) {
                     console.log('error getting data');
