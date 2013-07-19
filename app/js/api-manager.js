@@ -67,7 +67,11 @@ function (config) {
         }
 
         function initIN () {
-            IN.init({ api_key: config.api_key, authorize: false });
+            IN.init({
+                api_key: config.api_key,
+                authorize: false,
+                credentials_cookie: config.credentials_cookie
+            });
         }
 
         function checkAPI () {

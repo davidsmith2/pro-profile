@@ -3,12 +3,13 @@ define([
     'collections/connections',
     'models/profiles/connection',
     'models/profiles/personal',
+    'models/session',
     'router',
-    'views/app', 
-    'views/nav' 
-], 
+    'views/app',
+    'views/nav'
+],
 
-function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, AppView, NavView) {
+function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, Router, AppView, NavView) {
 
     var App = function () {
 
@@ -16,6 +17,7 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
         this.collections.connections = new Connections();
         this.models.connectionProfile = new ConnectionProfile();
         this.models.personalProfile = new PersonalProfile();
+        this.models.session = new Session();
 
         // create API manager
         this.apiManager = new ApiManager();
@@ -43,12 +45,12 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Router, A
 
         onReady: function () {
             Backbone.history.start();
-            if (this.apiManager.isAuthorized()) {
-                this.views.app.$logoutLink.show();
-                this.apiManager.trigger('authorize');
-            } else {
+            if (!this.apiManager.isAuthorized()) {
                 this.views.app.$loginLink.show();
                 this.apiManager.trigger('logout');
+            } else {
+                this.views.app.$logoutLink.show();
+                this.apiManager.trigger('authorize');
             }
         },
 
