@@ -3,14 +3,17 @@
 	"version": "0.0.1",
 	"private": true,
 	"dependencies": {
+		"connect": "latest",
 		"express": "3.3.4",
+		"oauth": "0.9.10",
 		"requirejs": "latest"
 	},
 	"devDependencies": {
 		"mocha": "latest",
 		"chai": "latest",
 		"grunt": "latest",
-		"grunt-exec": "latest"
+		"grunt-exec": "latest",
+		"node-inspector": "0.3.1"
 	},
 	"scripts": {
 		"grunt": "grunt"
