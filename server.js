@@ -1,6 +1,15 @@
 var connect = require('connect'),
-    http = require('http'),
+    fs = require('fs'),
+    https = require('https'),
     app;
+
+var protocol = 'https',
+    port = 8443;
+
+var options = {
+    key: fs.readFileSync('ssl/key.pem'),
+    cert: fs.readFileSync('ssl/cert.pem')
+};
 
 app = connect()
     .use(connect.static('app'))
@@ -9,6 +18,6 @@ app = connect()
     .use('/test', connect.static('test/'))
     .use('/test', connect.static('app'));
 
-http.createServer(app).listen(8080, function () {
-    console.log('Running on http://localhost:8080');
+https.createServer(options, app).listen(port, function () {
+    console.log('Running on ' + protocol + '//localhost:' + port);
 });
