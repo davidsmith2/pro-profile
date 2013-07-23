@@ -23,7 +23,8 @@ function (mustache, template) {
             return this;
         },
 
-        logout: function () {
+        logout: function (event) {
+            event.preventDefault();
             proProfile.apiManager.onLogout();
         }
 
