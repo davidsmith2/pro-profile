@@ -1,22 +1,19 @@
 define([
-    'views/auth/login',
-    'views/auth/logout',
+    'views/auth',
     'views/connections/list',
     'views/profile'
-], 
+],
 
-function (LoginView, LogoutView, ConnectionsListView, ProfileView) {
+function (AuthView, ConnectionsListView, ProfileView) {
 
     var app, Router;
 
     Router = Backbone.Router.extend({
 
         routes: {
-            '!/login':              'viewLogin',
-            '!/logout':             'viewLogout',
             '!/people':             'viewConnections',
             '!/people/~':           'viewProfile',
-            '!/people/id=:id':      'viewProfile',
+            '!/people/id=:id':      'viewProfile'
         },
 
         initialize: function (_app) {
@@ -24,14 +21,10 @@ function (LoginView, LogoutView, ConnectionsListView, ProfileView) {
             this.views = app.views;
         },
 
-        viewLogin: function () {
-            var view = new LoginView({ app: app });
-            this.views.app.showView(view);
-        },
-
-        viewLogout: function () {
-            var view = new LogoutView();
-            this.views.app.showView(view);
+        viewAuthMessage: function (model) {
+            var view = new AuthView({ model: model });
+            view.render();
+            $('#auth-message-box').html(view.el);
         },
 
         viewConnections: function (collection) {
@@ -47,5 +40,5 @@ function (LoginView, LogoutView, ConnectionsListView, ProfileView) {
     });
 
     return Router;
-    
+
 });

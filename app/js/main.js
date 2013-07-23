@@ -1,3 +1,16 @@
+function onLinkedInLoad () {
+    IN.Event.on(IN, 'auth', function () {
+        function checkProProfile () {
+            if (typeof proProfile !== 'undefined') {
+                proProfile.apiManager.onAuth();
+            } else {
+                setTimeout(checkProProfile, 100);
+            }
+        }
+        checkProProfile();
+    });
+}
+
 requirejs.config({
 	baseUrl: 'js',
 	paths: {
@@ -24,7 +37,7 @@ requirejs.config({
         },
         'app': {
             deps: [
-                'lib/underscore/underscore-min', 
+                'lib/underscore/underscore-min',
                 'lib/backbone/backbone-min',
                 'lib/backbone/backbone-overrides',
                 'lib/jquery/jquery.min',

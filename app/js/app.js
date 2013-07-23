@@ -26,13 +26,12 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
         this.router = new Router(this);
 
         // create main views
-        this.views.app = new AppView(this);
+        this.views.app = new AppView();
         this.views.nav = new NavView({ app: this });
 
         // listen out for these events
-        this.apiManager.on('ready', this.onReady, this);
-        this.apiManager.on('authorize', this.onLogin, this);
-        this.apiManager.on('logout', this.onLogout, this);
+        this.apiManager.on('auth', this.login, this);
+        this.apiManager.on('logout', this.logout, this);
 
     };
 
@@ -43,19 +42,30 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
         router: {},
         views: {},
 
-        onReady: function () {
-            Backbone.history.start();
-            if (!this.apiManager.isAuthorized()) {
-                this.views.app.$loginLink.show();
-                this.apiManager.trigger('logout');
-            } else {
-                this.views.app.$logoutLink.show();
-                this.apiManager.trigger('authorize');
-            }
-        },
+        login: function () {
 
-        onLogin: function () {
-            var collection = this.collections.connections, self = this;
+            var model = this.models.personalProfile,
+                collection = this.collections.connections,
+                self = this;
+
+            // get personal info for login message
+            model.fetch({
+                data: {
+                    fields: '(first-name,last-name)',
+                    url: model.url
+                },
+                success: function (model, response, options) {
+                    $('#login-button-box').hide();
+                    $('body').addClass('logged-in');
+                    $('#header').show();
+                    self.router.viewAuthMessage(model);
+                },
+                error: function (model, response, options) {
+                    console.log('error');
+                }
+            });
+
+            // get connections info
             collection.fetch({
                 data: {
                     fields: '(id,first-name,last-name,headline,location)',
@@ -63,18 +73,26 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
                 },
                 success: function (collection, response, options) {
                     self.router.navigate('!/' + collection.url);
-                    self.views.nav.render();
                     self.router.viewConnections(collection);
+                    self.views.nav.render();
                 },
                 error: function (collection, response, options) {
-                    console.log('error getting data');
+                    console.log('error');
                 }
             });
+
         },
 
-        onLogout: function () {
-            this.router.viewLogout();
-            this.views.nav.$el.empty();
+        logout: function () {
+            var self = this;
+            IN.User.logout(function () {
+                $('body').removeClass('logged-in');
+                $('#header').hide();
+                $('#content').empty();
+                self.views.nav.$el.empty();
+                $('body').addClass('guest');
+                $('#login-button-box').show();
+            });
         }
 
     };

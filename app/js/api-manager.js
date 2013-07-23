@@ -1,6 +1,6 @@
 define([
     'config'
-], 
+],
 
 function (config) {
 
@@ -8,81 +8,20 @@ function (config) {
 
         var self = this;
 
-        loadApi(this);
+        this.isLoggedIn = false;
 
-        this.isAuthorized = function () {
-            self.trigger('isAuthorized');
-            return IN.User.isAuthorized();
+        this.onAuth = function () {
+            self.isLoggedIn = true;
+            self.trigger('auth');
         };
 
-        this.authorize = function (callback) {
-            return IN.User.authorize(function () {
-                self.trigger('authorize');
-                if (callback) callback();
-            });
-        };
-
-        this.logout = function (callback) {
-            return IN.User.logout(function () {
-                self.trigger('logout');
-                if (callback) callback();
-            });
-        };
-
-        this.refresh = function () {
-            return IN.User.refresh();
-        };
-
-        this.setAuthorized = function () {
-            return IN.User.setAuthorized();
+        this.onLogout = function () {
+            self.trigger('logout');
         };
 
     }
 
     _.extend(ApiManager.prototype, Backbone.Events);
-
-    function loadApi (self) {
-
-        // - If the global IN object has already loaded, proceed to initialize it
-        // - Asycnhronously load the global IN object
-        // - Check whether the global IN object has loaded
-        // - Initialize the global IN object
-        // - Check whether the API object has loaded
-
-        if (typeof IN !== 'undefined') {
-            return initIN();
-        }
-
-        require(['linkedin'], function () {
-            checkIN();
-        });
-
-        function checkIN () {
-            if (IN) {
-                initIN();
-                checkAPI();
-            } else {
-                setTimeout(checkIN, 100);
-            }
-        }
-
-        function initIN () {
-            IN.init({
-                api_key: config.api_key,
-                authorize: false,
-                credentials_cookie: config.credentials_cookie
-            });
-        }
-
-        function checkAPI () {
-            if (IN.API) {
-                self.trigger('ready');
-            } else {
-                setTimeout(checkAPI, 100);
-            }
-        }
-
-    };
 
     Backbone.sync = function (method, model, options) {
 
@@ -99,7 +38,7 @@ function (config) {
                         model = options.data.model;
                     }
                     if (options.data.url) {
-                        url = options.data.url
+                        url = options.data.url;
                     } else {
                         url = model.url;
                     }

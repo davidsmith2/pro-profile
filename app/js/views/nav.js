@@ -1,6 +1,6 @@
 define([
     'lib/text/text!templates/nav.html'
-], 
+],
 
 function (template) {
 
@@ -38,7 +38,7 @@ function (template) {
                     self.app.router.viewConnections(collection);
                 },
                 error: function (collection, response, options) {
-                    console.log('error getting data');
+                    console.log('error');
                 }
             });
         },
@@ -51,14 +51,14 @@ function (template) {
             model.fetch({
                 data: {
                     fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)',
-                    url: url,
+                    url: url
                 },
                 success: function (model, response, options) {
                     self.app.router.navigate('!/' + url);
                     self.app.router.viewProfile(model);
                 },
                 error: function (model, response, options) {
-                    console.log('error getting data');
+                    console.log('error');
                 }
             });
         }

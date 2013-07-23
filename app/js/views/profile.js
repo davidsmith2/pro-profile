@@ -8,7 +8,7 @@ function (config, mustache, template) {
 
     var ProfileView = Backbone.View.extend({
 
-        id: '#profile',
+        id: 'profile',
         tagName: 'div',
 
         initialize: function (options) {
