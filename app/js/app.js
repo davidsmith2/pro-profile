@@ -30,8 +30,10 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
         this.views.nav = new NavView({ app: this });
 
         // listen out for these events
-        this.apiManager.on('auth', this.login, this);
-        this.apiManager.on('logout', this.logout, this);
+        this.apiManager.on('auth', this.handleLogin, this);
+        this.apiManager.on('logout', this.handleLogout, this);
+
+        $('#loader').hide();
 
     };
 
@@ -42,11 +44,13 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
         router: {},
         views: {},
 
-        login: function () {
-
+        handleLogin: function () {
             var model = this.models.personalProfile,
                 collection = this.collections.connections,
                 self = this;
+
+            $('#login').hide();
+            $('#logout, #nav, #content').show();
 
             // get personal info for login message
             model.fetch({
@@ -55,10 +59,9 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
                     url: model.url
                 },
                 success: function (model, response, options) {
-                    $('#login-button-box').hide();
-                    $('body').addClass('logged-in');
-                    $('#header').show();
-                    self.router.viewAuthMessage(model);
+                    self.router.viewLogout(model);
+                    self.views.nav.render();
+
                 },
                 error: function (model, response, options) {
                     console.log('error');
@@ -74,7 +77,6 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
                 success: function (collection, response, options) {
                     self.router.navigate('!/' + collection.url);
                     self.router.viewConnections(collection);
-                    self.views.nav.render();
                 },
                 error: function (collection, response, options) {
                     console.log('error');
@@ -83,16 +85,9 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
 
         },
 
-        logout: function () {
-            var self = this;
-            IN.User.logout(function () {
-                $('body').removeClass('logged-in');
-                $('#header').hide();
-                $('#content').empty();
-                self.views.nav.$el.empty();
-                $('body').addClass('guest');
-                $('#login-button-box').show();
-            });
+        handleLogout: function () {
+            $('#logout, #nav, #content').hide();
+            $('#login').show();
         }
 
     };

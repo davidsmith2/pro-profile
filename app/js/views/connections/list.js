@@ -1,10 +1,11 @@
 define([
+    'views/app',
     'views/connections/item'
-], 
+],
 
-function (ConnectionItemView) {
+function (AppView, ConnectionItemView) {
 
-    var ConnectionsListView = Backbone.View.extend({
+    var ConnectionsListView = AppView.extend({
 
         id: 'connections',
         tagName: 'ul',
@@ -20,6 +21,7 @@ function (ConnectionItemView) {
                     self.renderItem(model);
                 }
             });
+            $('#content').html(this.$el);
             return this;
         },
 

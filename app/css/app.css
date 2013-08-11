@@ -1,3 +1,8 @@
+#login-container,
+#logged-in-container {
+    display:none;
+}
+
 /* HELPERS */
 
 .no-bullet {

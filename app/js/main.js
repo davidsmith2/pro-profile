@@ -1,16 +1,3 @@
-function onLinkedInLoad () {
-    IN.Event.on(IN, 'auth', function () {
-        function checkProProfile () {
-            if (typeof proProfile !== 'undefined') {
-                proProfile.apiManager.onAuth();
-            } else {
-                setTimeout(checkProProfile, 100);
-            }
-        }
-        checkProProfile();
-    });
-}
-
 requirejs.config({
 	baseUrl: 'js',
 	paths: {
@@ -46,6 +33,26 @@ requirejs.config({
         }
 	}
 });
+
+function onLinkedInLoad () {
+
+    // Fired when the system is completely ready for execution. onLoad events can fire.
+    IN.Event.on(IN, 'systemReady', function () {
+        $('#loader').show();
+    });
+
+    // The user has authorized the application.
+    IN.Event.on(IN, 'auth', function () {
+        function checkProProfile () {
+            if (typeof proProfile !== 'undefined') {
+                proProfile.apiManager.onAuth();
+            } else {
+                setTimeout(checkProProfile, 100);
+            }
+        }
+        checkProProfile();
+    });
+}
 
 require(['app'], function (App) {
 	window.proProfile = new App();

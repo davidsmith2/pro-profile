@@ -12,6 +12,7 @@ function () {
             firstName: '',
             lastName: '',
             headline: '',
+            industry: '',
             location: {
                 country: '',
                 name: ''

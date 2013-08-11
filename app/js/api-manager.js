@@ -10,13 +10,16 @@ function (config) {
 
         this.isLoggedIn = false;
 
-        this.onAuth = function () {
+        this.onAuth = function (callback) {
             self.isLoggedIn = true;
+            if (callback) callback();
             self.trigger('auth');
         };
 
-        this.onLogout = function () {
-            self.trigger('logout');
+        this.logout = function () {
+            IN.User.logout(function () {
+                self.trigger('logout');
+            });
         };
 
     }

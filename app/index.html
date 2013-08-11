@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -11,12 +11,24 @@
     </script>
 </head>
 <body>
-    <div id="login-button-box">
-        <script id="login-button" type="in/Login"></script>
-        <p>Log in to experience proProfile.</p>
+    <div id="loader">
+        Loading&#8230;
     </div>
-    <div id="app">
+    <header id="header">
+        <div id="login">
+            <script id="login-button" type="in/Login"></script>
+        </div>
+        <div id="logout">
+        </div>
+        <h1>proProfile</h1>
+    </header>
+    <nav id="nav">
+    </nav>
+    <div id="content">
     </div>
+    <footer id="footer">
+        <div>Built with the <a href="http://developer.linkedin.com/javascript" target="_blank">LinkedIn JavaScript API</a>.</div>
+    </footer>
 	<script type="text/javascript" src="js/lib/require.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </body>

@@ -1,24 +1,25 @@
 define([
     'config',
     'lib/mustache/mustache',
-    'lib/text/text!templates/profile.html'
-], 
+    'lib/text/text!templates/profile.html',
+    'views/app'
+],
 
-function (config, mustache, template) {
+function (config, mustache, template, AppView) {
 
-    var ProfileView = Backbone.View.extend({
+    var ProfileView = AppView.extend({
 
         id: 'profile',
-        tagName: 'div',
 
         initialize: function (options) {
             this.model = options.model;
         },
 
         render: function () {
-            this.$el.html(mustache.render($(template).html(), this.model.attributes));
+            var html = mustache.render($(template).html(), this.model.attributes);
+            $('#content').html(html);
             return this;
-        },
+        }
 
     });
 

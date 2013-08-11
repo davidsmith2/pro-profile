@@ -1,18 +1,19 @@
 define([
+    'views/app',
     'lib/text/text!templates/nav.html'
 ],
 
-function (template) {
+function (AppView, template) {
 
-    var NavView = Backbone.View.extend({
+    var NavView = AppView.extend({
 
-        el: '#nav-menu',
+        id: 'nav-menu',
         tagName: 'ul',
         template: _.template(template),
 
         events: {
-            'click #connections': 'getConnections',
-            'click #personal-profile': 'getPersonalProfile'
+            'click #connections': 'handleGetConnections',
+            'click #personal-profile': 'handleGetPersonalProfile'
         },
 
         initialize: function (options) {
@@ -20,12 +21,22 @@ function (template) {
         },
 
         render: function () {
-            this.$el.html(this.template());
+            var html = this.$el.html(this.template());
+            $('#nav').html(html);
             return this;
         },
 
-        getConnections: function (event) {
-            event.preventDefault();
+        handleGetConnections: function (e) {
+            e.preventDefault();
+            this.getConnections();
+        },
+
+        handleGetPersonalProfile: function (e) {
+            e.preventDefault();
+            this.getPersonalProfile();
+        },
+
+        getConnections: function () {
             var collection, self = this;
             collection = this.app.collections.connections;
             collection.fetch({
@@ -43,14 +54,13 @@ function (template) {
             });
         },
 
-        getPersonalProfile: function (event) {
-            event.preventDefault();
+        getPersonalProfile: function () {
             var model, url, self = this;
             model = this.app.models.personalProfile;
             url = model.url;
             model.fetch({
                 data: {
-                    fields: '(id,first-name,last-name,headline,location,summary,positions,numConnections,pictureUrl)',
+                    fields: '(id,first-name,last-name,headline,industry,location,summary,positions,numConnections,pictureUrl)',
                     url: url
                 },
                 success: function (model, response, options) {
