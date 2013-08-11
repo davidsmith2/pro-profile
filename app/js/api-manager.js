@@ -20,24 +20,25 @@ function () {
     _.extend(ApiManager.prototype, Backbone.Events);
 
     Backbone.sync = function (method, model, options) {
-        if (!options) {
-            options = {};
+        var methods = {
+            'create':   handleCreate,
+            'read':     handleRead,
+            'update':   handleUpdate,
+            'delete':   handleDelete
+        };
+
+        methods[method]();
+
+        function handleCreate () {}
+
+        function handleRead () {
+            Backbone.apiRequest(IN.API.Raw(options.data.url + ':' + options.data.fields), method, model, options);
         }
 
-        switch (method) {
-            case 'create':
-            break;
+        function handleUpdate () {}
 
-            case 'read':
-                Backbone.apiRequest(IN.API.Raw(options.data.url + ':' + options.data.fields), method, model, options);
-            break;
+        function handleDelete () {}
 
-            case 'update':
-            break;
-
-            case 'delete':
-            break;
-        }
     };
 
     Backbone.apiRequest = function(request, method, model, options) {
