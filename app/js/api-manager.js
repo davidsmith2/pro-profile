@@ -1,18 +1,12 @@
 define([
-    'config'
 ],
 
-function (config) {
+function () {
 
     function ApiManager () {
-
         var self = this;
 
-        this.isLoggedIn = false;
-
-        this.onAuth = function (callback) {
-            self.isLoggedIn = true;
-            if (callback) callback();
+        this.onAuth = function () {
             self.trigger('auth');
         };
 
@@ -21,36 +15,21 @@ function (config) {
                 self.trigger('logout');
             });
         };
-
     }
 
     _.extend(ApiManager.prototype, Backbone.Events);
 
     Backbone.sync = function (method, model, options) {
-
-        var url, request;
-        options || (options = {});
+        if (!options) {
+            options = {};
+        }
 
         switch (method) {
             case 'create':
             break;
 
             case 'read':
-                if (options.data) {
-                    if (options.data.model) {
-                        model = options.data.model;
-                    }
-                    if (options.data.url) {
-                        url = options.data.url;
-                    } else {
-                        url = model.url;
-                    }
-                    if (options.data.fields) {
-                        url += ':' + options.data.fields;
-                    }
-                }
-                request = IN.API.Raw(url);
-                Backbone.apiRequest(request, method, model, options);
+                Backbone.apiRequest(IN.API.Raw(options.data.url + ':' + options.data.fields), method, model, options);
             break;
 
             case 'update':
@@ -59,11 +38,9 @@ function (config) {
             case 'delete':
             break;
         }
-
     };
 
     Backbone.apiRequest = function(request, method, model, options) {
-        var result;
         request.result(function(response) {
             options.success(response);
         }).error(function (error) {
