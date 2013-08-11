@@ -1,5 +1,5 @@
 define([
-], 
+],
 
 function () {
 
@@ -38,6 +38,13 @@ function () {
 
         isPrivate: function () {
             return (this.attributes.id === 'private');
+        },
+
+        isOnPoint: function () {
+            return (
+                this.attributes.firstName === 'OnPoint' &&
+                this.attributes.lastName === 'Consulting'
+            );
         }
 
     });

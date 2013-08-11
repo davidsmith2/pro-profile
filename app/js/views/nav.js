@@ -1,14 +1,14 @@
 define([
-    'views/app',
-    'lib/text/text!templates/nav.html'
+    'lib/text/text!templates/nav.html',
+    'views/app'
 ],
 
-function (AppView, template) {
+function (template, AppView) {
 
     var NavView = AppView.extend({
 
-        id: 'nav-menu',
         tagName: 'ul',
+        id: 'nav-view',
         template: _.template(template),
 
         events: {
@@ -21,8 +21,7 @@ function (AppView, template) {
         },
 
         render: function () {
-            var html = this.$el.html(this.template());
-            $('#nav').html(html);
+            this.$el.html(this.template());
             return this;
         },
 

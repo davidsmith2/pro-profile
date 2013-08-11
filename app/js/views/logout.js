@@ -8,7 +8,7 @@ function (mustache, template, AppView) {
 
     var LogoutView = AppView.extend({
 
-        el: '#logout',
+        id: 'logout-view',
 
         events: {
             'click #logout-link': 'handleClick'

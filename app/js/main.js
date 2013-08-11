@@ -36,11 +36,6 @@ requirejs.config({
 
 function onLinkedInLoad () {
 
-    // Fired when the system is completely ready for execution. onLoad events can fire.
-    IN.Event.on(IN, 'systemReady', function () {
-        $('#loader').show();
-    });
-
     // The user has authorized the application.
     IN.Event.on(IN, 'auth', function () {
         function checkProProfile () {

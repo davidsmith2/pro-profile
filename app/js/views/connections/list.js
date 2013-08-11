@@ -7,8 +7,8 @@ function (AppView, ConnectionItemView) {
 
     var ConnectionsListView = AppView.extend({
 
-        id: 'connections',
         tagName: 'ul',
+        id: 'connections-list-view',
 
         initialize: function (options) {
             this.collection = options.collection;
@@ -17,11 +17,10 @@ function (AppView, ConnectionItemView) {
         render: function () {
             var self = this;
             this.collection.each(function (model) {
-                if (!model.isPrivate()) {
+                if (!model.isPrivate() && !model.isOnPoint()) {
                     self.renderItem(model);
                 }
             });
-            $('#content').html(this.$el);
             return this;
         },
 
@@ -29,10 +28,6 @@ function (AppView, ConnectionItemView) {
             var item = new ConnectionItemView({ model: model });
             this.$el.append(item.render().el);
             return this;
-        },
-
-        onClose: function () {
-            this.collection.unbind('change', this.render);
         }
 
     });

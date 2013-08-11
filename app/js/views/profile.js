@@ -9,7 +9,7 @@ function (config, mustache, template, AppView) {
 
     var ProfileView = AppView.extend({
 
-        id: 'profile',
+        id: 'profile-view',
 
         initialize: function (options) {
             this.model = options.model;
@@ -17,7 +17,7 @@ function (config, mustache, template, AppView) {
 
         render: function () {
             var html = mustache.render($(template).html(), this.model.attributes);
-            $('#content').html(html);
+            this.$el.html(html);
             return this;
         }
 

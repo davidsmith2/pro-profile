@@ -1,13 +1,14 @@
 define([
-    'views/app',
-    'lib/text/text!templates/connections/item.html'
+    'lib/text/text!templates/connections/item.html',
+    'views/app'
 ],
 
-function (AppView, template) {
+function (template, AppView) {
 
     var ConnectionItemView = AppView.extend({
 
         tagName: 'li',
+        className: 'connection-item-view',
         template: _.template(template),
 
         events: {

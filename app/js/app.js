@@ -22,18 +22,15 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
         // create API manager
         this.apiManager = new ApiManager();
 
+        // create main app view
+        this.views.app = new AppView();
+
         // create router
         this.router = new Router(this);
-
-        // create main views
-        this.views.app = new AppView();
-        this.views.nav = new NavView({ app: this });
 
         // listen out for these events
         this.apiManager.on('auth', this.handleLogin, this);
         this.apiManager.on('logout', this.handleLogout, this);
-
-        $('#loader').hide();
 
     };
 
@@ -60,8 +57,7 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
                 },
                 success: function (model, response, options) {
                     self.router.viewLogout(model);
-                    self.views.nav.render();
-
+                    self.router.viewNav(self);
                 },
                 error: function (model, response, options) {
                     console.log('error');
@@ -86,6 +82,7 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
         },
 
         handleLogout: function () {
+            $('#nav, #content').empty();
             $('#logout, #nav, #content').hide();
             $('#login').show();
         }
