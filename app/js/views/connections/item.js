@@ -1,11 +1,12 @@
 define([
     'lib/text/text!templates/connections/item.html',
+    'models/profile',
     'views/app'
 ],
 
-function (template, AppView) {
+function (template, Profile, AppView) {
 
-    var ConnectionItemView = AppView.extend({
+    var ConnectionView = AppView.extend({
 
         tagName: 'li',
         className: 'connection-item-view',
@@ -31,25 +32,11 @@ function (template, AppView) {
         },
 
         getProfile: function () {
-            var url = this.model.url + this.model.get('id');
-            this.model.fetch({
-                data: {
-                    fields: '(id,first-name,last-name,headline,industry,location,summary,positions,numConnections,pictureUrl)',
-                    url: url
-                },
-                success: function (model, response, options) {
-                    proProfile.router.navigate('!/' + url);
-                    proProfile.router.viewProfile(model);
-                },
-                error: function (model, response, options) {
-                    console.log('error getting data');
-                }
-            });
-
+            proProfile.router.showProfile(this.model.get('id'));
         }
 
     });
 
-    return ConnectionItemView;
+    return ConnectionView;
 
 });

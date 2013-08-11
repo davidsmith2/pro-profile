@@ -1,36 +1,34 @@
 define([
     'api-manager',
     'collections/connections',
-    'models/profiles/connection',
-    'models/profiles/personal',
-    'models/session',
+    'models/my-profile',
     'router',
     'views/app',
-    'views/nav'
+    'views/logout',
+    'views/nav',
+    'views/connections/list'
 ],
 
-function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, Router, AppView, NavView) {
+function (ApiManager, Connections, MyProfile, Router, AppView, LogoutView, NavView, ConnectionsView) {
 
     var App = function () {
 
-        // create models and collections
+        this.models.myProfile = new MyProfile();
         this.collections.connections = new Connections();
-        this.models.connectionProfile = new ConnectionProfile();
-        this.models.personalProfile = new PersonalProfile();
-        this.models.session = new Session();
-
-        // create API manager
         this.apiManager = new ApiManager();
-
-        // create main app view
         this.views.app = new AppView();
+        this.router = new Router({ app: this });
 
-        // create router
-        this.router = new Router(this);
-
-        // listen out for these events
+        this.models.myProfile.on('sync', function () {
+            console.log('my profile synced');
+        });
+        this.collections.connections.on('sync', function () {
+            console.log('connections synced');
+        });
         this.apiManager.on('auth', this.handleLogin, this);
         this.apiManager.on('logout', this.handleLogout, this);
+
+        Backbone.history.start();
 
     };
 
@@ -42,42 +40,40 @@ function (ApiManager, Connections, ConnectionProfile, PersonalProfile, Session, 
         views: {},
 
         handleLogin: function () {
-            var model = this.models.personalProfile,
-                collection = this.collections.connections,
+            var myProfile = this.models.myProfile,
+                connections = this.collections.connections,
+                fields = myProfile.fields,
                 self = this;
 
-            $('#login').hide();
-            $('#logout, #nav, #content').show();
-
-            // get personal info for login message
-            model.fetch({
+            myProfile.fetch({
                 data: {
-                    fields: '(first-name,last-name)',
-                    url: model.url
+                    fields: fields,
+                    url: myProfile.url
                 },
                 success: function (model, response, options) {
-                    self.router.viewLogout(model);
-                    self.router.viewNav(self);
+                    self.router.showLogout();
+                    self.router.showNav();
                 },
                 error: function (model, response, options) {
                     console.log('error');
                 }
             });
 
-            // get connections info
-            collection.fetch({
+            connections.fetch({
                 data: {
-                    fields: '(id,first-name,last-name,headline,location)',
-                    url: collection.url
+                    fields: fields,
+                    url: connections.url
                 },
                 success: function (collection, response, options) {
-                    self.router.navigate('!/' + collection.url);
-                    self.router.viewConnections(collection);
+                    self.router.showConnections();
                 },
                 error: function (collection, response, options) {
                     console.log('error');
                 }
             });
+
+            $('#login').hide();
+            $('#logout, #nav, #content').show();
 
         },
 

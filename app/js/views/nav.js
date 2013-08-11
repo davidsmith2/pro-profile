@@ -13,12 +13,10 @@ function (template, AppView) {
 
         events: {
             'click #connections': 'handleGetConnections',
-            'click #personal-profile': 'handleGetPersonalProfile'
+            'click #profile': 'handleGetProfile'
         },
 
-        initialize: function (options) {
-            this.app = options.app;
-        },
+        initialize: function () {},
 
         render: function () {
             this.$el.html(this.template());
@@ -30,46 +28,17 @@ function (template, AppView) {
             this.getConnections();
         },
 
-        handleGetPersonalProfile: function (e) {
+        handleGetProfile: function (e) {
             e.preventDefault();
-            this.getPersonalProfile();
+            this.getProfile();
         },
 
         getConnections: function () {
-            var collection, self = this;
-            collection = this.app.collections.connections;
-            collection.fetch({
-                data: {
-                    fields: '(id,first-name,last-name,headline,location)',
-                    url: collection.url
-                },
-                success: function (collection, response, options) {
-                    self.app.router.navigate('!/' + collection.url);
-                    self.app.router.viewConnections(collection);
-                },
-                error: function (collection, response, options) {
-                    console.log('error');
-                }
-            });
+            proProfile.router.showConnections();
         },
 
-        getPersonalProfile: function () {
-            var model, url, self = this;
-            model = this.app.models.personalProfile;
-            url = model.url;
-            model.fetch({
-                data: {
-                    fields: '(id,first-name,last-name,headline,industry,location,summary,positions,numConnections,pictureUrl)',
-                    url: url
-                },
-                success: function (model, response, options) {
-                    self.app.router.navigate('!/' + url);
-                    self.app.router.viewProfile(model);
-                },
-                error: function (model, response, options) {
-                    console.log('error');
-                }
-            });
+        getProfile: function () {
+            proProfile.router.showProfile();
         }
 
     });

@@ -5,7 +5,7 @@ function () {
 
     var AppView = Backbone.View.extend({
 
-        showView: function (selector, view) {
+        show: function (selector, view) {
             if (this.currentView) {
                 this.currentView.close();
             }

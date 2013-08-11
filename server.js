@@ -20,5 +20,5 @@ app
     .use('/test', express.static('app'));
 
 https.createServer(credentials, app).listen(port, function () {
-    console.log('Running on ' + protocol + '//localhost:' + port);
+    console.log('Running on ' + protocol + '://localhost:' + port);
 });

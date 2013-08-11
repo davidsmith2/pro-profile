@@ -3,9 +3,9 @@ define([
     'views/connections/item'
 ],
 
-function (AppView, ConnectionItemView) {
+function (AppView, ConnectionView) {
 
-    var ConnectionsListView = AppView.extend({
+    var ConnectionsView = AppView.extend({
 
         tagName: 'ul',
         id: 'connections-list-view',
@@ -24,14 +24,14 @@ function (AppView, ConnectionItemView) {
             return this;
         },
 
-        renderItem: function (model) {
-            var item = new ConnectionItemView({ model: model });
+        renderItem: function (profile) {
+            var item = new ConnectionView({ model: profile });
             this.$el.append(item.render().el);
             return this;
         }
 
     });
 
-    return ConnectionsListView;
+    return ConnectionsView;
 
 });

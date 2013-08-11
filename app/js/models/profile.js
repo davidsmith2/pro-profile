@@ -3,10 +3,10 @@ define([
 
 function () {
 
-    var ConnectionProfile = Backbone.Model.extend({
+    var Profile = Backbone.Model.extend({
 
         url: 'people/id=',
-
+        fields: '(id,first-name,last-name,headline,industry,location,summary,positions,numConnections,pictureUrl)',
         defaults: {
             id: '',
             firstName: '',
@@ -49,6 +49,6 @@ function () {
 
     });
 
-    return ConnectionProfile;
+    return Profile;
 
 });

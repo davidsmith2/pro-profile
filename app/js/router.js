@@ -5,36 +5,50 @@ define([
     'views/profile'
 ],
 
-function (LogoutView, ConnectionsListView, NavView, ProfileView) {
+function (LogoutView, ConnectionsView, NavView, ProfileView) {
 
     var app, Router;
 
     Router = Backbone.Router.extend({
 
         routes: {
-            '!/people':             'viewConnections',
-            '!/people/~':           'viewProfile',
-            '!/people/id=:id':      'viewProfile'
+            '!/':                        'showLogout',
+            '!/connections':             'showConnections',
+            '!/connections/id=:id':      'showProfile',
+            '!/profile/~':               'showProfile'
         },
 
-        viewLogout: function (model) {
-            var view = new LogoutView({ model: model });
-            view.showView('#logout', view);
+        initialize: function (options) {
+            this.models = options.app.models;
+            this.collections = options.app.collections;
         },
 
-        viewNav: function (app) {
-            var view = new NavView({ app: app });
-            view.showView('#nav', view);
+        showLogout: function () {
+            var view = new LogoutView({ model: this.models.myProfile });
+            view.show('#logout', view);
         },
 
-        viewConnections: function (collection) {
-            var view = new ConnectionsListView({ collection: collection });
-            view.showView('#content', view);
+        showNav: function (app) {
+            var view = new NavView();
+            view.show('#nav', view);
         },
 
-        viewProfile: function (model) {
-            var view = new ProfileView({ model: model });
-            view.showView('#content', view);
+        showConnections: function () {
+            var view = new ConnectionsView({ collection: this.collections.connections });
+            view.show('#content', view);
+        },
+
+        showProfile: function (id) {
+            var profile, view;
+
+            if (id) {
+                profile = this.collections.connections.get(id);
+            } else {
+                profile = this.models.myProfile;
+            }
+
+            view = new ProfileView({ model: profile });
+            view.show('#content', view);
         }
 
     });
