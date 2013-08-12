@@ -34,7 +34,12 @@ function () {
                     }
                 ]
             }
+        },
+
+        isPrivate: function () {
+            return this.get('id') === 'private';
         }
+
     });
 
     return User;
