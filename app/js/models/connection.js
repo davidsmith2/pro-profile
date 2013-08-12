@@ -9,7 +9,7 @@ function (User) {
         url: 'people/id=',
 
         isPrivate: function () {
-            return (this.attributes.id === 'private');
+            return this.get('id') === 'private';
         }
 
     });
