@@ -1,6 +1,42 @@
-#login-container,
-#logged-in-container {
-    display:none;
+/* BOOTSTRAP OVERRIDES */
+
+.row {
+    margin-top:1em;
+}
+
+/* BASE */
+
+h1, h2 {
+    margin-top:0;
+}
+
+/* LAYOUT */
+
+#header,
+#footer {
+    border:solid #ddd;
+}
+
+#header {
+    border-width:0 0 1px 0;
+    padding-bottom:0.5em;
+}
+
+    #login,
+    #user {
+        text-align: right;
+    }
+
+#nav-view {
+    list-style: none;
+    margin-left:0;
+    padding-left:0;
+}
+
+#footer {
+    border-width:1px 0 0 0;
+    padding-top:0.5em;
+    text-align: center;
 }
 
 /* HELPERS */

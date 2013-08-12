@@ -1,8 +1,9 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>proProfile</title>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <script type="text/javascript" src="http://platform.linkedin.com/in.js">
         api_key: 3hgb50tctix0
@@ -11,21 +12,31 @@
     </script>
 </head>
 <body>
-    <header id="header">
-        <div id="login">
-            <script id="login-button" type="in/Login"></script>
+    <div class="container">
+        <header id="header" class="row">
+            <div class="span3 offset1">
+                <h1>proProfile</h1>
+            </div>
+            <div class="span7">
+                <div id="login">
+                    <script id="login-button" type="in/Login"></script>
+                </div>
+                <div id="user">
+                </div>
+            </div>
+        </header>
+        <div class="row">
+            <nav id="nav" class="span2 offset1">
+            </nav>
+            <div id="content" class="span8">
+            </div>
         </div>
-        <div id="user">
-        </div>
-        <h1>proProfile</h1>
-    </header>
-    <nav id="nav">
-    </nav>
-    <div id="content">
+        <footer id="footer" class="row">
+            <div class="span10 offset1">
+                <p><small>Built with the <a href="http://developer.linkedin.com/javascript" target="_blank">LinkedIn JavaScript API</a>.</small></p>
+            </div>
+        </footer>
     </div>
-    <footer id="footer">
-        <div>Built with the <a href="http://developer.linkedin.com/javascript" target="_blank">LinkedIn JavaScript API</a>.</div>
-    </footer>
 	<script type="text/javascript" src="js/lib/require.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </body>
