@@ -1,6 +1,6 @@
 define([
     'lib/text/text!templates/connections/item.html',
-    'models/profile',
+    'models/connection',
     'views/app'
 ],
 
@@ -22,7 +22,7 @@ function (template, Profile, AppView) {
 
         render: function () {
             var $el = $(this.el);
-            $el.html(this.template(this.model.attributes));
+            $el.html(this.template(this.model.toJSON()));
             return this;
         },
 

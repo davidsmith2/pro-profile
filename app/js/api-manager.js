@@ -38,7 +38,6 @@ function () {
         function handleUpdate () {}
 
         function handleDelete () {}
-
     };
 
     Backbone.apiRequest = function(request, method, model, options) {

@@ -16,7 +16,7 @@ function (config, mustache, template, AppView) {
         },
 
         render: function () {
-            var html = mustache.render($(template).html(), this.model.attributes);
+            var html = mustache.render($(template).html(), this.model.toJSON());
             this.$el.html(html);
             return this;
         }

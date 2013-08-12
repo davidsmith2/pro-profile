@@ -1,14 +1,11 @@
 define([
-    'models/profile'
+    'models/connection'
 ],
 
-function (Profile) {
-
+function (Connection) {
     var Connections = Backbone.Collection.extend({
-        model: Profile,
+        model: Connection,
         url: 'people/~/connections'
     });
-
     return Connections;
-
 });

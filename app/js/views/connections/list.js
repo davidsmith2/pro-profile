@@ -17,7 +17,7 @@ function (AppView, ConnectionView) {
         render: function () {
             var self = this;
             this.collection.each(function (model) {
-                if (!model.isPrivate() && !model.isOnPoint()) {
+                if (!model.isPrivate()) {
                     self.renderItem(model);
                 }
             });

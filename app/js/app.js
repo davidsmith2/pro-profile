@@ -1,29 +1,29 @@
 define([
     'api-manager',
     'collections/connections',
-    'models/my-profile',
+    'models/user',
     'router',
     'views/app',
-    'views/logout',
+    'views/user',
     'views/nav',
     'views/connections/list'
 ],
 
-function (ApiManager, Connections, MyProfile, Router, AppView, LogoutView, NavView, ConnectionsView) {
+function (ApiManager, Connections, User, Router, AppView, UserView, NavView, ConnectionsView) {
 
     var App = function () {
 
-        this.models.myProfile = new MyProfile();
+        this.models.user = new User();
         this.collections.connections = new Connections();
         this.apiManager = new ApiManager();
         this.views.app = new AppView();
         this.router = new Router({ app: this });
 
-        this.models.myProfile.on('sync', function () {
-            console.log('my profile synced');
+        this.models.user.on('sync', function () {
+            console.log('user data synced');
         });
         this.collections.connections.on('sync', function () {
-            console.log('connections synced');
+            console.log('connection data synced');
         });
         this.apiManager.on('auth', this.handleLogin, this);
         this.apiManager.on('logout', this.handleLogout, this);
@@ -40,18 +40,18 @@ function (ApiManager, Connections, MyProfile, Router, AppView, LogoutView, NavVi
         views: {},
 
         handleLogin: function () {
-            var myProfile = this.models.myProfile,
+            var user = this.models.user,
                 connections = this.collections.connections,
-                fields = myProfile.fields,
+                fields = user.fields,
                 self = this;
 
-            myProfile.fetch({
+            user.fetch({
                 data: {
                     fields: fields,
-                    url: myProfile.url
+                    url: user.url
                 },
                 success: function (model, response, options) {
-                    self.router.showLogout();
+                    self.router.showUser();
                     self.router.showNav();
                 },
                 error: function (model, response, options) {
@@ -73,13 +73,13 @@ function (ApiManager, Connections, MyProfile, Router, AppView, LogoutView, NavVi
             });
 
             $('#login').hide();
-            $('#logout, #nav, #content').show();
+            $('#user, #nav, #content').show();
 
         },
 
         handleLogout: function () {
             $('#nav, #content').empty();
-            $('#logout, #nav, #content').hide();
+            $('#user, #nav, #content').hide();
             $('#login').show();
         }
 

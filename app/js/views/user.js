@@ -6,9 +6,9 @@ define([
 
 function (mustache, template, AppView) {
 
-    var LogoutView = AppView.extend({
+    var UserView = AppView.extend({
 
-        id: 'logout-view',
+        id: 'user-view',
 
         events: {
             'click #logout-link': 'handleClick'
@@ -19,7 +19,7 @@ function (mustache, template, AppView) {
         },
 
         render: function () {
-            var html = mustache.render($(template).html(), this.model.attributes);
+            var html = mustache.render($(template).html(), this.model.toJSON());
             this.$el.html(html);
             return this;
         },
@@ -35,6 +35,6 @@ function (mustache, template, AppView) {
 
     });
 
-    return LogoutView;
+    return UserView;
 
 });

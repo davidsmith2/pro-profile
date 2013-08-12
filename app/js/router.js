@@ -1,18 +1,18 @@
 define([
-    'views/logout',
+    'views/user',
     'views/connections/list',
     'views/nav',
     'views/profile'
 ],
 
-function (LogoutView, ConnectionsView, NavView, ProfileView) {
+function (UserView, ConnectionsView, NavView, ProfileView) {
 
     var app, Router;
 
     Router = Backbone.Router.extend({
 
         routes: {
-            '!/':                        'showLogout',
+            '!/':                        'showUser',
             '!/connections':             'showConnections',
             '!/connections/id=:id':      'showProfile',
             '!/profile/~':               'showProfile'
@@ -23,9 +23,9 @@ function (LogoutView, ConnectionsView, NavView, ProfileView) {
             this.collections = options.app.collections;
         },
 
-        showLogout: function () {
-            var view = new LogoutView({ model: this.models.myProfile });
-            view.show('#logout', view);
+        showUser: function () {
+            var view = new UserView({ model: this.models.user });
+            view.show('#user', view);
         },
 
         showNav: function (app) {
@@ -44,7 +44,7 @@ function (LogoutView, ConnectionsView, NavView, ProfileView) {
             if (id) {
                 profile = this.collections.connections.get(id);
             } else {
-                profile = this.models.myProfile;
+                profile = this.models.user;
             }
 
             view = new ProfileView({ model: profile });

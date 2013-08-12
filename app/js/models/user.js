@@ -3,9 +3,9 @@ define([
 
 function () {
 
-    var Profile = Backbone.Model.extend({
+    var User = Backbone.Model.extend({
 
-        url: 'people/id=',
+        url: 'people/~',
         fields: '(id,first-name,last-name,headline,industry,location,summary,positions,numConnections,pictureUrl)',
         defaults: {
             id: '',
@@ -34,21 +34,9 @@ function () {
                     }
                 ]
             }
-        },
-
-        isPrivate: function () {
-            return (this.attributes.id === 'private');
-        },
-
-        isOnPoint: function () {
-            return (
-                this.attributes.firstName === 'OnPoint' &&
-                this.attributes.lastName === 'Consulting'
-            );
         }
-
     });
 
-    return Profile;
+    return User;
 
 });
