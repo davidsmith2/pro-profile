@@ -1,6 +1,6 @@
 define([
     'lib/mustache/mustache',
-    'lib/text/text!templates/logout.html',
+    'lib/text/text!templates/user.html',
     'views/app'
 ],
 

@@ -40,15 +40,13 @@ function (ApiManager, Connections, User, Router, AppView, UserView, NavView, Con
         views: {},
 
         handleLogin: function () {
-            var user = this.models.user,
-                connections = this.collections.connections,
-                fields = user.fields,
+            var fields = this.models.user.fields,
                 self = this;
 
-            user.fetch({
+            this.models.user.fetch({
                 data: {
                     fields: fields,
-                    url: user.url
+                    url: this.models.user.url
                 },
                 success: function (model, response, options) {
                     self.router.showUser();
@@ -59,10 +57,10 @@ function (ApiManager, Connections, User, Router, AppView, UserView, NavView, Con
                 }
             });
 
-            connections.fetch({
+            this.collections.connections.fetch({
                 data: {
                     fields: fields,
-                    url: connections.url
+                    url: this.collections.connections.url
                 },
                 success: function (collection, response, options) {
                     self.router.showConnections();
@@ -78,7 +76,6 @@ function (ApiManager, Connections, User, Router, AppView, UserView, NavView, Con
         },
 
         handleLogout: function () {
-            $('#nav, #content').empty();
             $('#user, #nav, #content').hide();
             $('#login').show();
         }
