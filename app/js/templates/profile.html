@@ -1,12 +1,12 @@
 <script id="profile-template" type="text/template">
     <h2>{{firstName}} {{lastName}}</h2>
-    <ul>
-        <li>{{headline}}</li>
-        <li>{{industry}}</li>
-        <li>{{location.name}}</li>
-        <li>{{numConnections}} connections</li>
-        <li><img src="{{pictureUrl}}" /></li>
-    </ul>
+    <p>
+        {{headline}}<br>
+        {{industry}}<br>
+        {{location.name}}<br>
+        {{numConnections}} connections<br>
+        <img src="{{pictureUrl}}" />
+    </p>
     {{#summary}}
         <h3>Summary</h3>
         <p>{{summary}}</p>
@@ -18,14 +18,14 @@
             <li>
                 <dl>
                     <dt>{{title}}</dt>
-                        <dd>{{company.name}}</dd>
-                        <dd>
+                        <dd class="no-left-margin">{{company.name}}</dd>
+                        <dd class="no-left-margin">
                             {{startDate.month}}/{{startDate.year}}&#8211;
                             {{#endDate}}
                                 {{endDate.month}}/{{endDate.year}}
                             {{/endDate}}
                         </dd>
-                        <dd><p>{{summary}}</p></dd>
+                        <dd class="no-left-margin"><p>{{summary}}</p></dd>
                 </dl>
             </li>
             {{/positions.values}}

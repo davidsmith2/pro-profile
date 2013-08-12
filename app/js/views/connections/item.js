@@ -1,10 +1,9 @@
 define([
     'lib/text/text!templates/connections/item.html',
-    'models/connection',
     'views/app'
 ],
 
-function (template, Profile, AppView) {
+function (template, AppView) {
 
     var ConnectionView = AppView.extend({
 
