@@ -5,9 +5,9 @@
 	<title>proProfile</title>
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/app.css">
-    <script type="text/javascript" src="http://platform.linkedin.com/in.js">
+    <script src="http://platform.linkedin.com/in.js">
         api_key: 3hgb50tctix0
-        onLoad: onLinkedInLoad
+        onLoad: pPLoader.onLinkedInLoad
         authorize: true
     </script>
 </head>
@@ -37,7 +37,36 @@
             </div>
         </footer>
     </div>
-	<script type="text/javascript" src="js/lib/require.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	<script src="js/lib/require.js"></script>
+	<script src="js/main.js"></script>
+    <script>
+
+// To make things easier, I'm loading LinkedIn synchronously.
+// pPLoader handles (a) the loading of the LinkedIn API and (b) the subsequent initializtion of proProfile.
+var pPLoader = (function (IN) {
+
+    var initsMax = 10, initsCount = 0;
+
+    // make sure proProfile has loaded then initialize it
+    function initProProfile () {
+        if (typeof proProfile !== 'undefined') {
+            proProfile.apiManager.auth();
+        } else if (initsCount < initsMax) {
+            initsCount++;
+            setTimeout(initProProfile, 100);
+        }
+    }
+
+    return {
+        onLinkedInLoad: function () {
+            IN.Event.on(IN, 'auth', function () {
+                initProProfile();
+            });
+        }
+    };
+
+}(IN));
+
+    </script>
 </body>
 </html>

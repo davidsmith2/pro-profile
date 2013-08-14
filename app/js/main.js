@@ -34,21 +34,7 @@ requirejs.config({
 	}
 });
 
-function onLinkedInLoad () {
-
-    // The user has authorized the application.
-    IN.Event.on(IN, 'auth', function () {
-        function checkProProfile () {
-            if (typeof proProfile !== 'undefined') {
-                proProfile.apiManager.onAuth();
-            } else {
-                setTimeout(checkProProfile, 100);
-            }
-        }
-        checkProProfile();
-    });
-}
-
+// load proProfile asynchronously
 require(['app'], function (App) {
-	window.proProfile = new App();
+    window.proProfile = new App();
 });

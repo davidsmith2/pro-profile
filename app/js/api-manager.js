@@ -6,11 +6,11 @@ function () {
     function ApiManager () {
         var self = this;
 
-        this.onAuth = function () {
+        this.auth = function () {
             self.trigger('auth');
         };
 
-        this.logout = function () {
+        self.logout = function () {
             IN.User.logout(function () {
                 self.trigger('logout');
             });

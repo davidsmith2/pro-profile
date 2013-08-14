@@ -16,6 +16,7 @@ function (ApiManager, Connections, User, Router, AppView, UserView, NavView, Con
         this.models.user = new User();
         this.collections.connections = new Connections();
         this.apiManager = new ApiManager();
+
         this.views.app = new AppView();
         this.router = new Router({ app: this });
 
