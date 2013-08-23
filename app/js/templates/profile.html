@@ -1,34 +1,48 @@
 <script id="profile-template" type="text/template">
-    <h2>{{firstName}} {{lastName}}</h2>
-    <p>
-        {{headline}}<br>
-        {{industry}}<br>
-        {{location.name}}<br>
-        {{numConnections}} connections<br>
-        <img src="{{pictureUrl}}" />
-    </p>
-    {{#summary}}
-        <h3>Summary</h3>
-        <p>{{summary}}</p>
-    {{/summary}}
-    {{#positions}}
-        <h3>Experience</h3>
-        <ul class="no-bullet no-left-margin no-left-padding">
-            {{#positions.values}}
-            <li>
+    <div class="profile">
+        <div class="basic-info row">
+            <div class="text span6">
                 <dl>
-                    <dt>{{title}}</dt>
-                        <dd class="no-left-margin">{{company.name}}</dd>
-                        <dd class="no-left-margin">
-                            {{startDate.month}}/{{startDate.year}}&#8211;
-                            {{#endDate}}
-                                {{endDate.month}}/{{endDate.year}}
-                            {{/endDate}}
-                        </dd>
-                        <dd class="no-left-margin"><p>{{summary}}</p></dd>
+                    <dt class="h2">{{firstName}} {{lastName}}</dt>
+                        <dd>{{headline}}</dd>
+                        <dd>{{industry}}</dd>
+                        <dd>{{location.name}}</dd>
+                        <dd>{{numConnections}} connections</dd>
                 </dl>
-            </li>
-            {{/positions.values}}
-        </ul>
-    {{/positions}}
+            </div>
+            {{#pictureUrl}}
+            <div class="image span2">
+                <img src="{{pictureUrl}}" />
+            </div>
+            {{/pictureUrl}}
+        </div>
+        {{#summary}}
+        <div class="summary">
+            <h3>Summary</h3>
+            <p>{{summary}}</p>
+        </div>
+        {{/summary}}
+        {{#positions}}
+        <div class="experience">
+            <h3>Experience</h3>
+            <ul class="no-bullet no-left-margin no-left-padding">
+                {{#positions.values}}
+                <li>
+                    <dl>
+                        <dt>{{title}}</dt>
+                            <dd class="no-left-margin">{{company.name}}</dd>
+                            <dd class="no-left-margin">
+                                {{startDate.month}}/{{startDate.year}}&#8211;
+                                {{#endDate}}
+                                    {{endDate.month}}/{{endDate.year}}
+                                {{/endDate}}
+                            </dd>
+                            <dd class="no-left-margin"><p>{{summary}}</p></dd>
+                    </dl>
+                </li>
+                {{/positions.values}}
+            </ul>
+        </div>
+        {{/positions}}
+    </div>
 </script>

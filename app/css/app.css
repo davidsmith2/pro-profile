@@ -41,6 +41,23 @@ h1, h2 {
 
 /* HELPERS */
 
+.basic-info > .image {
+    background-color:#eee;
+    padding:10px 0;
+    text-align:center;
+}
+.basic-info > .text > dl {
+    margin-top:10px;
+}
+.basic-info > .text > dl > dd {
+    margin-left:0;
+}
+.h2 {
+    font-size:24.5px;
+    font-weight:bold;
+    line-height:20px;
+    margin-bottom:5px;
+}
 .no-bullet {
     list-style:none;
 }
