@@ -47,16 +47,38 @@ h1, h2 {
     text-align:center;
 }
 .basic-info > .text > dl {
-    margin-top:10px;
+    margin-top:5px;
+}
+.basic-info > .text > dl > dt {
+    line-height:20px;
+    margin-bottom:5px;
 }
 .basic-info > .text > dl > dd {
     margin-left:0;
 }
-.h2 {
-    font-size:24.5px;
+.h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight:bold;
-    line-height:20px;
-    margin-bottom:5px;
+}
+.h1, .h2, .h3 {
+    line-height:40px;
+}
+.h1 {
+    font-size:38.5px;
+}
+.h2 {
+    font-size:31.5px;
+}
+.h3 {
+    font-size:24.5px;
+}
+.h4 {
+    font-size:17.5px;
+}
+.h5 {
+    font-size:14px;
+}
+.h6 {
+    font-size:11.9px;
 }
 .no-bullet {
     list-style:none;

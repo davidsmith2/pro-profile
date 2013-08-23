@@ -1,20 +1,20 @@
 <script id="profile-template" type="text/template">
     <div class="profile">
         <div class="basic-info row">
+            {{#pictureUrl}}
+            <div class="image span2">
+                <img src="{{pictureUrl}}" />
+            </div>
+            {{/pictureUrl}}
             <div class="text span6">
                 <dl>
-                    <dt class="h2">{{firstName}} {{lastName}}</dt>
+                    <dt class="h3">{{firstName}} {{lastName}}</dt>
                         <dd>{{headline}}</dd>
                         <dd>{{industry}}</dd>
                         <dd>{{location.name}}</dd>
                         <dd>{{numConnections}} connections</dd>
                 </dl>
             </div>
-            {{#pictureUrl}}
-            <div class="image span2">
-                <img src="{{pictureUrl}}" />
-            </div>
-            {{/pictureUrl}}
         </div>
         {{#summary}}
         <div class="summary">
